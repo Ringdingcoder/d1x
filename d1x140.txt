@@ -1,0 +1,155 @@
+Enhancements since last D1X version.
+-----------------------------------------------------
+
+This file describes a few of the enhancements of the current D1X version
+since the last official release.  A full list is in the file readme.d1x,
+and descriptions of features in previous versions can be found in the file
+d1x.txt.
+
+Contents
+--------
+1. Multiplayer commands
+2. Multiplayer menus
+3. Other multiplayer enhancements
+4. General gameplay enhancements
+
+1. Multiplayer commands
+-----------------------
+ *** Multiplayer message commands are now prefaced by either a / or a $.
+     commands that take a parameter can use either a space or a colon.
+     ie: to ping, at the f8 prompt "message:"  type: "/ping <pilot>"
+
+   - /ALTVULCAN
+     This function sets all d1x players with compatable versions to use
+     the alternate vulcanfire functionality.  Anyone in the game can use
+     this function.
+
+   - /BAN:<playername>
+     This function bans the specified player.
+     NOTE: You must be the game master in order to use this function.
+     ban changes are not saved between games automatically.  Use the game
+     master menu or the command line switch to save bans.  If you use this
+     on a person who is currently in the game, but does not have the d1x
+     'kick' functionality, the person will not be expelled from the game.
+     Anyone banned, however, will not be able to join as long as you are
+     the game master.  If you save bans, they will be stored in the file
+     bans.d1x in the d1 root directory.  Bans are applied on the tcpip
+     equivalant of x.x.x.*
+
+   - /BANN:<playernum>
+     This functtion works as the above /BAN:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be banned.
+
+   - /UNBAN:<playername>
+     This function unbans the specified player.
+     NOTE: You must be the game master in order to use this function.
+     ban changes are not saved between games automatically.  Use the game
+     master menu or the command line switch to save bans.
+
+   - /UNBANN:<playernum>
+     This functtion works as the above /UNBAN:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be unbanned.
+
+   - /BANLIST or /LISTBANS
+     Lists the current game's bans.
+
+   - /CLEARBANS
+     Clears all bans from the list.  Just like using UNBAN or UBANN on each
+     ban.
+     
+
+2. Multiplayer menus
+--------------------
+
+   This section describes the network join game and start game menu
+   enhancements.
+
+   - In game, game master menu
+     CTRL-N during a game to bring up this menu.  From here, you can change
+     values for joining players.  You can make the game close/open,
+     restricted, change the maximum number of players, change the game
+     name, and change the reactor invulnerability.  These changes are
+     communicated to all d1x players with versions 1.40 or later, and effect
+     all players joining after the change.  Bans can also be saved locally in
+     this menu. Only the game master has access to this menu.
+
+   - Join game menu
+     This should mostly explain itself. A plus sign (+) after the game
+     number means that it's a D1X game, which is currently only visible
+     for D1X v1.01 and higher users. If the gamemode is UNSUP, then the
+     game uses features not available in your version. Upgrade to a new
+     version to play this game.
+     - U key
+       press the 'U' key to get the users/pilots currently in the
+       selected game
+     - I key
+       press the 'I' key to get game information on the selected game
+     - S key
+       press the 'S' key to get score grid for the selected game
+              (will not automatically update)
+
+   - D1X options (submenu from Start new game menu)
+     Here you can set options new for the D1X versions:
+     - Alternate Vulcanfire
+       This enables the use of the alternate firing system for the vulcan
+       cannon. The alternate vulcanfire works works by changing the firing
+       of the vulcan to a local system.  Instead of 'fire' packets, the
+       firing player sends 'vulcan on' or 'vulcan off' packets.  On packets
+       are sent periodically, but are less often than the original vulcan
+       fire packets, and are much smaller.  Off packets are sent whenever
+       the trigger is released.  D1x players who have a recent enough
+       version keep note of the on/off state of a player, and if there is a
+       player that is marked 'on', they create vulcan shots emanating from
+       the player at his current position.  If no 'on' packets have been
+       received for a period of time (about half a second), then the vulcan
+       automatically turns off.  Normal packet behavior is used for any
+       players that do not have d1x or do not have a recent enough version.
+
+
+3. Other multiplayer enhancements
+---------------------------------
+
+   - ping statistics: ping loss%
+     pressing ctrl-f7 turns on the ping display.  This periodically pings
+     the other players in the game, and shows the most recent pingtime, and
+     keeps a loss statistic next to the player names score.  The loss values
+     are reset every 5 minutes.  At the times when the values are reset, the
+     loss may jump to negative or slightly positive numbers for a time.
+     Don't worry about it until it stays consistant over longer periods of
+     time.  As of d1x 1.40, ping packets are very small.  Older versions of
+     d1x, however, user rather large packets for pinging, so beware if there
+     are many players with older versions using this functionality, as it
+     might lead to packet flooding.  You can turn this display on by default
+     with the command line switch -pingstats
+
+   - Recent message buffer
+     Press Alt-F8, and the last HUD messages will be repeated, up to
+     the full screen.
+
+   - Many of the older bugs with d1x, specifically, have been fixed. Item
+     spew appears where it should, even in high loss/lag situations, the
+     shield-orb loss is fixed locally (may still occur if older versions are
+     in the game), and other problems, as well.
+     
+
+4. General gameplay enhancements
+--------------------------------
+
+   These enhancements are useful for both single and multiplayer.
+
+   - Alternate hud views
+     Switch between the new alternate hud views using alt-f7.  You can
+     set the default using the command line switch -hud <n>.  There
+     are three settings.
+      0 = normal
+      1 = show weapon/ammo/availability listings
+      2 = in fullscreen, same as #1, but in different places.  In cockpit
+          or statusbar, exact same as #1.
+
+   - -hwsurface command line switch
+     For Linux users, only.  Instead of using local ram buffer, the
+     framebuffer is accessed directly for displaying.  Usually gains quite
+     a few fps.
+

@@ -1,0 +1,43 @@
+TOPDIR = ../..
+
+!include $(TOPDIR)/defines.mak
+
+OBJECTS = digi.$(OBJ) hmpfile.$(OBJ) mono.$(OBJ) \
+        joyhh.$(OBJ) key_arch.$(OBJ) mouse.$(OBJ) timer.$(OBJ) \
+        joydefs.$(OBJ)
+
+ifdef NETWORK
+OBJECTS = $(OBJECTS) ipx_win.$(OBJ) winnet.$(OBJ) serial.$(OBJ) arch_ip.$(OBJ)
+endif
+
+!ifdef WGL_IO
+OBJECTS = $(OBJECTS) glinit.$(OBJ)
+!else
+OBJECTS = $(OBJECTS) palw32.$(OBJ) 
+!ifdef D1XD3D
+OBJECTS = $(OBJECTS) pch.$(OBJ) win32.$(OBJ) scene.$(OBJ) texture.$(OBJ) winmain.$(OBJ)
+E_CFLAGS = -Id3dframe
+SUBDIRS = d3dframe
+!else
+OBJECTS = $(OBJECTS) init.$(OBJ) gr.$(OBJ)
+!endif
+!endif
+
+!ifdef ENV_MSVC
+MISCOUTPUT +=  $(MISCOUTPUT) $(LIBDIR)d1x.res
+!else
+MISCOUTPUT += $(MISCOUTPUT) $(LIBDIR)d1x_res.$(OBJ)
+!endif
+
+OUTPUT = $(LIBDIR)io.$(ARC)
+
+E_CFLAGS = $(E_CFLAGS) -I$(TOPDIR)/main -Iinclude
+
+!include $(TOPDIR)/default.nt
+
+$(LIBDIR)d1x.res: d1x.rc
+	$(RC) /i include /fo $@ /r d1x.rc
+
+$(LIBDIR)d1x_res.o: d1x_res.rc
+	windres --include include -o $@ $<
+

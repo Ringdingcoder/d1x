@@ -1,0 +1,7 @@
+TOPDIR = ..
+
+OBJECTS = cfile.$(OBJ)
+
+OUTPUT = $(LIBDIR)cfile.$(ARC)
+
+include $(TOPDIR)/default.mak

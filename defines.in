@@ -1,0 +1,116 @@
+# NOERROR:       make sure there are no warnings in compile
+NOERROR = 1
+
+# NO_ASM:       don't use assembler
+#NO_ASM = 1
+
+# MAKE_EDITOR:  build editor into game  be sure to comment RELEASE
+#MAKE_EDITOR = 1
+
+# DEBUG:	enable asserts, int3, etc. and include debugger data
+#DEBUG = 1
+
+# DEBUGABLE:    compiles an executable that is suitable for debugging, but
+# without including all the extra debug asserts/etc
+#DEBUGABLE = 1
+
+# PROFILE:	compiles an executable suitable for profiling
+#PROFILE = 1
+
+# CHECKER:	compile with memory usage debugger.  Must also set NO_ASM and STATICSDL
+#caveats: 
+# 1)segfaults unless you use -nosound, don't know why.
+# 2)If you use X at 8bpp, it'll give lots of errors about writing to the nothing zone, I guess because in 16 bit mode it has to convert from 8bit, so it uses "local" ram instead of using DGA or whatever.
+# 3)It also seems to give a fair amount of *internal errors*, again dunno why.
+# 4)Longjmp seems to segfault, even though I made stubs, so there is no way to quit a game.
+# 5)Very slow, may seem to be crashed while loading/playing, but its actually doing something.. just wait.
+#CHECKER = checkeregcc
+#CHECKERINCLUDE = -I/usr/lib/checker/i686-pc-linux-gnu/include/ 
+#NORMALCC = egcc 
+
+# MONO:
+#MONO = 1
+
+# SHAREWARE:	build for shareware files and remove registered only features
+#SHAREWARE = 1
+
+# RELEASE:      release build.   removes debug/editor things
+RELEASE = 1
+
+# environment
+ENV_DJGPP = 1
+#ENV_DJGPP_REALDOS =1
+#ENV_MINGW32 = 1
+#ENV_CYGWIN = 1
+#ENV_MSVC = 1
+#ENV_LINUX = 1
+
+# if compiling with Cygwin, you need extra mingw compatible c++ libraries (see compile.txt)
+#MINGW_EXTRA = /Cygnus/mingw/
+
+# D1XD3D: for use only with ENV_MSVC, builds support for Direct3D
+#D1XD3D = 1
+
+# DXBASE: if D1XD3D is defined, or one of the other windows options that needs
+# it, use this to define DirectX base dir
+#DXBASE = C:\MSSDK
+
+# WGL_IO: for use with ENV_CYGWIN or ENV_MINGW32 or ENV_MSVC, builds support for OpenGL on win32
+#WGL_IO = 1
+
+# OGL_RUNTIME: use runtime dynamic loading, or link at compile time?  (Also
+# allows -gl_library command line to choose which opengl lib to use, and allows
+# you to build d1x-ogl without having a compiler specific opengl32.a)
+# Windows only, currently.
+#OGL_RUNTIME=1
+
+# linux video/input options (choose one)
+#GGI_IO = 1
+#SDL_IO = 1
+#SDLGL_IO = 1
+#SVGALIB_IO = 1
+#opengl support is still incomplete, you should only enable if you actually
+#want to work on the code, or can tolerate missing/partially implemented
+#features.  Uses GII for input. (note if you are using libgii0.6 (and possibly
+#others, including the 990922 snapshot (in which the xwin input method is
+#completely unchanged from 0.6)) you must edit libgii-0.6/input/xwin/input.c
+#(line 373), and change "ggUnlock(priv->lock);" to "if (priv->lock)
+#ggUnlock(priv->lock);"
+#GLX_IO = 1
+
+# linux audio options (choose one)
+#SDL_AUDIO = 1
+#ALSA_AUDIO = 1
+
+# secondary compiler options
+#**SDLROOTDIR is no longer needed unless SDL includes/libs are not in the default include/lib path 
+#SDLROOTDIR = ? 
+#STATICSDL: a static SDL lib can be made by typing "make static" in the obj/x11 directory.
+#STATICSDL = ../SDL-0.9.9/obj/x11/libSDL.a 
+#GR_LOCK: *not needed, only here for future possible use*  Use gr_lock() to call SDL_LockSurface.  Only needed if you plan to use -hwsurface. (however, it is technically not needed at all on Linux DGA, and thus the gr_(un)lock calls are implemented, but they are not actually placed into the code.)
+#GR_LOCK = 1
+
+#sound options for dos: choose which
+#MIKMOD = 1     #MikMod digital, can be used with allg_midi
+#ALLG_MIDI = 1  #Allegro midi, can be used with mikmod
+ALLEGRO = 1     #Allegro for midi and digi, should be used alone
+
+#music options for linux:
+#HMIPLAY = 1
+#suboptions for HMIPLAY:
+#WANT_AWE32 = 1
+#WANT_MPU401 = 1
+
+#linux-glibc: for newer Linux distributions
+GLIBC = 1
+
+#another thing you should comment if you don't have it
+#            (likely only comment for some linux compiles)
+HAVENETIPX = 1
+
+#network
+NETWORK = 1
+
+#big endian machines. support NOT complete!  If you have such a machine please
+#make it work and send in the patches :)
+#BIGENDIAN=1

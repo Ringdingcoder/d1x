@@ -1,0 +1,112 @@
+TOPDIR = .
+
+!include $(TOPDIR)/defines.mak
+
+SUBDIRS = arch maths 2d 3d texmap misc mem iff cfile main
+
+!ifdef MAKE_EDITOR
+SUBDIRS = $(SUBDIRS) editor ui 
+!endif
+
+
+
+!ifdef ENV_MSVC
+EXT=.exe
+!endif
+
+!ifdef SHAREWARE
+SHRWR = sh
+!else
+!ifdef DEBUG
+DBG = db
+!endif
+!endif
+
+!ifdef OGL
+!ifndef SND
+SND = _
+!endif
+OPT = ogl
+!endif
+
+TARGETNAME = d1x$(D1XMAJOR)$(D1XMINOR)$(SHRWR)$(DBG)$(SND)$(OPT)
+OUTPUT = $(TARGETNAME)$(EXT)
+
+LIBS = \
+	$(LIBDIR)main.$(ARC)	\
+	$(LIBDIR)io.$(ARC)	\
+	$(LIBDIR)3d.$(ARC)	\
+	$(LIBDIR)2d.$(ARC)	\
+	$(LIBDIR)iff.$(ARC)	\
+	$(LIBDIR)maths.$(ARC)	\
+	$(LIBDIR)cfile.$(ARC) \
+	$(LIBDIR)mem.$(ARC)	\
+	$(LIBDIR)misc.$(ARC)	\
+	$(LIBDIR)texmap.$(ARC)
+
+!ifdef NOERROR
+E_CFLAGS = $(E_CFLAGS) -WX
+!endif
+!ifdef ENV_MSVC
+LINKLIBS = $(LINKLIBS) $(LIBDIR)d1x.res
+!endif
+!ifdef ENV_MINGW32
+LINKLIBS = $(LINKLIBS) $(LIBDIR)d1x_res.$(OBJ)
+!endif
+!ifdef ENV_MSVC
+!ifdef WGL_IO
+LINKLIBS = $(LINKLIBS) $(LIBDIR)ogl.$(ARC) glu32.lib
+!ifndef OGL_RUNTIME
+LINKLIBS = $(LINKLIBS) opengl32.lib
+!endif
+!endif
+!ifdef D1XD3D
+LINKLIBS = $(LINKLIBS) $(LIBDIR)d3dframe.$(ARC)
+!endif
+LINKLIBS = $(LINKLIBS) dinput.lib ddraw.lib dsound.lib dxguid.lib wsock32.lib winmm.lib user32.lib kernel32.lib advapi32.lib gdi32.lib uuid.lib ole32.lib
+!ifdef DEBUG
+LINKLIBS = $(LINKLIBS) msvcrtd.lib
+!else
+LINKLIBS = $(LINKLIBS) msvcrt.lib
+!endif
+!ifdef RELEASE
+LFLAGS = $(LFLAGS) -OPT:REF -PDB:NONE
+!else
+LFLAGS = $(LFLAGS) -DEBUG -DEBUGTYPE:CV -PDB:$(TOPDIR)/lib/
+!endif
+!endif
+
+
+!ifdef SCRIPT
+LIBS = $(LIBS) $(LIBDIR)script.$(ARC)
+E_CFLAGS = $(E_CFLAGS) -DSCRIPT
+!endif
+
+!ifdef MAKE_EDITOR
+NO_RL2 = 1
+!endif
+!ifdef SHAREWARE
+NO_RL2 = 1
+!endif
+
+!ifdef MAKE_EDITOR
+LIBS = $(LIBS) $(LIBDIR)editor.$(ARC) $(LIBDIR)ui.$(ARC)
+E_CFLAGS = $(E_CFLAGS) -DEDITOR -I.
+!endif
+
+!include $(TOPDIR)/rules.nt
+
+$(OUTPUT):  $(SUBDIRS)
+	link $(LFLAGS) -out:$(OUTPUT) -machine:i386 -subsystem:console $(LIBS) $(LINKLIBS)
+
+$(SUBDIRS): dummy
+	@echo Building $@
+	@cd $@
+	@nmake -nologo /f makefile.nt
+	@cd ..
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(OUTPUT)
+
+dummy:

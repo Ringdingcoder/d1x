@@ -1,0 +1,7 @@
+TOPDIR = ..
+
+OBJECTS = iff.$(OBJ)
+
+OUTPUT = $(LIBDIR)iff.$(ARC)
+
+!include $(TOPDIR)/default.nt

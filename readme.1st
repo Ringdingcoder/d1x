@@ -1,0 +1,14 @@
+allegro.cfg -- sound configuration in Dos
+bugs.txt -- list of known bugs
+compile.txt -- requirements for compiling on different architectures
+d1x.faq -- list of problems and solutions
+d1x.ini -- list of default options that d1x uses when starting
+d1x.txt -- list of enhancements to d1x 
+defines.mak -- change the settings in this file before compiling
+editor.zip -- misc. files used by the editor 
+license.txt -- license d1x is distributed under
+readme.d1x -- list of features by version number and intro to d1x
+readme.org -- the readme that came with the original d1x source code
+readme.1st -- list of important text files (this file)
+source.txt -- dos specific compiling information
+todo.txt -- list of tasks to finish

@@ -1,0 +1,10 @@
+# If you need to override any of the make vars (eg. for cross compiling)
+# then copy this file to overrides.mak and edit the vars as need.
+
+AR=i586-mingw32msvc-ar
+STRIP=i586-mingw32msvc-strip
+CXX=i586-mingw32msvc-g++
+CC=i586-mingw32msvc-gcc
+NASM=nasm -f win32
+WINDRES=i586-mingw32msvc-windres
+

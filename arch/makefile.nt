@@ -1,0 +1,16 @@
+TOPDIR = ..
+
+!include $(TOPDIR)/defines.mak
+
+
+!ifdef ENV_MSVC
+SUBDIRS = win32
+!endif
+!ifdef SDL
+SUBDIRS = $(SUBDIRS) sdl
+!endif
+!ifdef OGL
+SUBDIRS = $(SUBDIRS) ogl
+!endif
+
+!include $(TOPDIR)/default.nt

@@ -1,0 +1,166 @@
+*****************************************************************************
+*                                                                           *
+********************************  D1X FAQ  **********************************
+*                                   v1.40                                   *
+*****************************************************************************
+
+
+Here is a short FAQ for D1X.  It will be added to as questions
+continuously arrive of the same type that require an automated response.
+
+=============================================================================
+
+
+
+================================  The FAQ  ==================================
+Q.    Whenever I switch to automap, it splits the screen into a couple
+     incomplete ones... what's wrong?
+      Ie: Why does the automap screw up my screen?
+
+A.    The default automap resolution was changed to 640x480, but your card
+     cant support this mode. (probably due to improper VESA drivers). Use
+     the parameter: -automap320x400 or similar with desired resolution.
+     Add this to either the d1x.bat or d1x.ini
+
+-
+
+Q.   How do I get my Space Orb to work with d1x?
+
+A.    Use the parameter -exe <filename> where <filename> is the name of the
+     d1x executable you are running with spwdcent.exe.
+
+-
+
+Q.   Why does my sound become all fuzzy or stop working when I run D1X?
+
+A.    Although there is no known really effective solution to this, you
+     might try editing the file "allegro.cfg" that you can find in the
+     D1X distribution, and mess with the values in that file.  First off,
+     try setting the sampling rate to the lowest value possible, and
+     increase it until it stops working again.	The last sampling rate
+     you had is the highest it will go.
+
+A.    There is also a setup program for Allegro. It's available from
+     the D1X homepage: http://megaera.library.unt.edu/~sekmu/d1x.
+     It attempts to autodetect your soundcard, and then automatically
+     builds an allegro.cfg.  You might wanna get this and try it
+     out.
+
+A.    Allegro and MikMod read from the global variable.  Make sure you
+     have the blaster variable set. (set BLASTER=A<Port> I<IRQ> D<DMA>..)
+     If you card uses irq 2, and this still doesn't work, try setting the
+     variable to =A220 I9 D1...
+
+A.    The Allegro sound libraries used in D1X are only compatable with
+     sound blaster, or very close compatables.  If you do not have one of
+     these, sorry.
+
+A.    Try installing the 'lastest drivers' from your board's -manufacturer-,
+     not the built in drivers in the OS or in DirectX, if at all possible.
+
+A.    If you have a Sound Blaster Live!, get a clean Allegro.cfg (from the
+     d1x website if nescessary) and edit the line digi_card =.  Set it to
+     digi_card = 5
+
+-
+
+Q.   Why do I disconnect from the internet any time I try to join a
+     multiplayer game?
+
+A.   Most likely, you are connecting to the internet through a network card.
+     check your network card's settings.  Most likely, the Input/Output
+     Range is set to 230->.  Change this to a higher value that does not
+     conflict with anything else.  (340-> is usually good)  This is caused
+     yet again by allegro.  Love those memory leaks and range errors.
+
+-
+
+Q.   How come my autoselect list got screwed up / lost?
+
+A.   Because adding the laser autoselect required a rather major rewrite
+     of some of the code, previous d1x configurations cause some minor
+     havok.  The first time an old player is used, the primary autoselect
+     list is reset.  If you swap d1x versions multiple times, especially
+     moving backward, results are likely to be... strange.  To fix any
+     problems occuring, simply go to the descent directory and delete the
+     <pilot>.plx file.
+
+-
+
+Q.   Why won't D1X save my max FPS / mission directory / etc?
+
+A.   These values are not saved by D1X.  If you want to use the same ones
+     every time, edit the d1x.ini and add the appropriate options.
+
+-
+
+Q.   Why can't I load descent.tex / descent.txb?
+
+A.   Make sure that your descent.hog is in your main descent directory,
+     especially if you are using -missiondir
+
+-
+
+Q.   Why can't I load any of my missions?
+
+A.   Make sure that the desired missions are in the correct directory:
+     The root directory if you are not using -missiondir (check both
+     the batch file and the d1x.ini), or in whatever directory is specified
+     by the -missiondir parameter.
+
+-
+
+Q.   How come I can't kick someone out of the game?
+
+A.    You must be game master in order to kick someone out of a game. Use
+     the ignore command instead.  Kick also won't work if the player you try
+     to kick is not using D1DJGPP or D1X.
+
+-
+
+Q.   How come someone I previously ignored shows back up in the game?
+
+A.    This is a small bug in the ignore modules. Simply use the
+     "discon:<playername>" command, where <playername> is the ignored person.
+     This will reset the ignore checking stuff, and that player will leave
+     the game again.
+
+-
+
+Q.   What exactly did you do to the homers?
+
+A.    Previously, the homers would always turn directly facing it's target
+     if it could see you.  Instead of having it directly facing the target,
+     though, it now checks against a maximum turn radius that it can go per
+     second, and depending on the framerate, sees if the desired turn is
+     greater than the maximum angle this frame.  If the desired turn is
+     greater, then it is reduced to the maximum angle allowed per frame.
+     This angle is increased/decreased depending on the difficulty level of
+     the game.
+
+A.    Previously, the homers would only lose 'fuel' when they turned... the
+     harder they turned, the more fuel they lost.  Now, in addition to this,
+     they lose fuel at a constant (additional) rate.
+
+A.    Previously, the homers would always target the -first- player in the
+     list that was within range.  Ie, it would always target the blue player
+     if possible, then red, then...
+      Now, it targets the closest player to the reticle. Ie, point and shoot.
+
+-
+
+Q.   Why are the homers harder in D1X?
+
+A.    Looking at the above question, you should realize that this means
+     that the homers are only -reduced- in difficulty.  The only way the
+     homers could be harder in D1X is if it ran better on your machine than
+     the other descent versions, while still falling below the cut off mark
+     for the D1X homer limiting.  Also remember that the homers get harder
+     the higher the difficulty setting.
+
+A.    Purely psychological.
+
+     If you do, however, have sufficient -proof- that the homers are harder
+     in D1X, send me demos (from both versions), your computer specs, etc.
+
+=============================================================================

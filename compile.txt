@@ -1,0 +1,105 @@
+These are specific instructions to compile for various architectures.
+
+DOS:
+  required: DJGPP v2.8+  www.delorie.com/djgpp/ 
+            NASM v0.97+
+            GNU MAKE 3.75
+  These are FREE resources, download links are available on the D1X website.
+
+  -copy defines.in to defines.mak
+  -edit defines.mak
+   -if compiling under real dos (not in a windows dos box):
+     -uncomment ENV_DJGPP_REALDOS=1
+      (note: running smartdrv will likely improve performance considerably)
+      (note2: if nasm dies with out of mem warning, just run it manually,
+       without make taking up mem it should work.)
+   -otherwise just use ENV_DJGPP=1
+  -run make dep from the d1x root directory
+  -run make from the d1x root directory
+
+Windows:
+  requires: NASM v0.97+
+            GNU MAKE 3.77
+            GCC v2.8+ (or EGCS)
+             MINGW32
+              ftp://agnes.dida.physik.uni-essen.de/home/janjaap/mingw32/newnew/
+              (binutils,make,mingw32,win32api)
+            or
+             CYGWIN32
+	      (Works with vers <= b20.1, but seems to have broken with the 1.1.x releases.
+	      Use mingw32 unless you feel like making it work again.)
+              http://sourceware.cygnus.com/cygwin
+              you also need extra mingw compatible c++ libraries at
+              ftp://ftp.xraylith.wisc.edu/pub/khan/gnu-win32/cygwin/<ver>/<ver>-mingw-extra.tar.gz
+              untar them into some dir, then put the path to it in MINGW_EXTRA.
+              see http://www.xraylith.wisc.edu/~khan/software/gnu-win32/mno-cygwin-howto.txt for more info
+            DX5 for mingw32 http://hawkins.emu.id.au/directx/
+	    for OpenGL build, you also need: ftp://www.pyropilots.org/pub/d1x/wglheaders.zip
+  These are FREE resources, download links are available on the D1X website.
+
+  -copy defines.in to defines.mak
+  -edit defines.mak
+   -comment ENV_DJGPP = 1
+   -comment the dos sound options
+   -uncomment ENV_MINGW32 = 1 or ENV_CYGWIN = 1 (depending upon which you have)
+   -if ENV_CYGWIN, also set MINGW_EXTRA
+   -for OpenGL: uncomment WGL_IO = 1, and OGL_RUNTIME = 1
+   -optional: if dx5 headers aren't in standard seach path, set DXBASE option.
+  -run make dep from the d1x root directory
+  -run make from the d1x root directory
+
+
+Windows Direct3D:
+  requires Microsoft Visual C++  www.microsoft.com/?
+           DX6 SDK  www.microsoft.com/directx
+  MSVC is -not- a free program. DX6 SDK is no longer a free download
+
+  this target is depreciated.  It won't work, and when it did it behaved
+    oddly.  Use the mingw32 compiler for windows versions.  Unless you
+    really feel attempting to make this work.
+
+  -copy defines.in to defines.mak
+  -edit defines.mak
+   -comment NO_ERROR =1
+   -comment ENV_DJGPP = 1
+   -comment the dos sound options
+   -uncomment NO_ASM = 1
+   -uncomment ENV_MSVC = 1
+   -uncomment D1XD3D = 1 
+   -uncomment DXBASE
+   -edit the dxbase value to match your installed directx sdk directory
+  -run nmake /f makefile.nt from the d1x root directory
+
+
+LINUX:
+  required: GCC v2.0+ (2.8+ recommended)
+            NASM v0.97+
+            GNU MAKE
+  depending on which targets you use, one or more of these are required:
+            SDL 1.1.x+   www.libsdl.org
+	    svgalib 1.40  www.cs.bgu.ac.il/~zivav/
+	    GGI/GII       www.ggi-project.org
+  optional: The Linux Joystick Driver  (included in kernel 2.1.125+)
+                        http://atrey.karlin.mff.cuni.cz/~vojtech/joystick/
+  These are FREE resources, download links are available on the D1X website.
+
+  -ensure files were unpacked in lowercase
+  -copy defines.in to defines.mak
+  -edit defines.mak
+   -comment ENV_DJGPP = 1
+   -comment the dos sound options
+   -uncomment ENV_LINUX = 1
+   -uncomment GLIBC = 1 if you have GNU libC (RedHat 5.1+,Debian 2.0+)
+   -uncomment appropriate targets(only one for each of video, input, and audio)
+   -if you don't have /usr/include/netipx/ipx.h
+     -comment HAVENETIPX = 1
+  -run make dep from the d1x root directory
+  -run make from the d1x root directory
+
+  to unrar with lowercase extensions, use the -cl switch
+
+--
+The executable will be created in the d1x root directory
+move it into your descent directory, and play.
+
+Good luck.

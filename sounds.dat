@@ -1,0 +1,68 @@
+#this is a comment
+#sound list is:
+#define SOUND_LASER_FIRED                10
+#define SOUND_WEAPON_HIT_BLASTABLE       11
+#define SOUND_BADASS_EXPLOSION           11
+#define SOUND_ROBOT_HIT_PLAYER           17
+#define SOUND_ROBOT_HIT                  20
+#define SOUND_ROBOT_DESTROYED            21
+#define SOUND_VOLATILE_WALL_HIT          21
+#define SOUND_DROP_BOMB                  26
+#define SOUND_WEAPON_HIT_DOOR            27
+#define SOUND_LASER_HIT_CLUTTER          30
+#define SOUND_CONTROL_CENTER_HIT         30
+#define SOUND_BIG_ENDLEVEL_EXPLOSION     31
+#define SOUND_TUNNEL_EXPLOSION           31
+#define SOUND_EXPLODING_WALL             31
+#define SOUND_CONTROL_CENTER_DESTROYED   31
+#define SOUND_CONTROL_CENTER_WARNING_SIREN 32
+#define SOUND_MINE_BLEW_UP               33
+#define SOUND_FUSION_WARMUP              34
+
+#define SOUND_REFUEL_STATION_GIVING_FUEL 62
+#define SOUND_PLAYER_HIT_WALL            70
+#define SOUND_PLAYER_GOT_HIT             71
+#define SOUND_HOSTAGE_RESCUED            91
+#define SOUND_COUNTDOWN_0_SECS          100     //countdown 100..114
+#define SOUND_COUNTDOWN_13_SECS         113
+#define SOUND_COUNTDOWN_29_SECS         114
+#define SOUND_HUD_MESSAGE               117
+#define SOUND_HUD_KILL                  118
+#define SOUND_HOMING_WARNING            122
+#define SOUND_VOLATILE_WALL_HISS        151
+
+#ifdef SHAREWARE
+#define SOUND_GOOD_SELECTION_PRIMARY	155
+#define SOUND_GOOD_SELECTION_SECONDARY	155
+#define SOUND_ALREADY_SELECTED		155
+#define SOUND_BAD_SELECTION		156
+#define  SOUND_CHEATER                  156
+#else // not shareware
+#define SOUND_GOOD_SELECTION_PRIMARY    153
+#define SOUND_BAD_SELECTION             156
+#define SOUND_GOOD_SELECTION_SECONDARY  154
+#define SOUND_ALREADY_SELECTED          155
+#define SOUND_CHEATER                   200
+#endif
+
+#define SOUND_CLOAK_OFF                 161
+#define SOUND_INVULNERABILITY_OFF       163
+#define ROBOT_SEE_SOUND_DEFAULT         170
+#define ROBOT_ATTACK_SOUND_DEFAULT      171
+#define SOUND_BOSS_SHARE_SEE            183
+#define SOUND_BOSS_SHARE_ATTACK         184
+#define SOUND_BOSS_SHARE_DIE            185
+#define ROBOT_CLAW_SOUND_DEFAULT        190
+#define SOUND_NASTY_ROBOT_HIT_1         190
+#define SOUND_NASTY_ROBOT_HIT_2         191
+
+#be sure sounds are in 8bit, 11khz, mono wavs with valid formatting
+#util to make wav valid:
+#     http://www.lightlink.com/tjweber/StripWav/StripWav.html
+# allegro users may also any frequency of 8bit mono wavs.
+
+#format is
+#soundnumber=filename.wav
+#ex:
+#10=nlaser.wav
+#117=nhudmsg.wav

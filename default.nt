@@ -1,0 +1,31 @@
+!include $(TOPDIR)/defines.mak
+
+!include $(TOPDIR)/rules.nt
+
+!ifdef OBJECTS
+CLEANOBJ=rm -f $(OBJECTS)
+!endif
+
+!ifdef OUTPUT
+CLEANOUT=rm -f $(OUTPUT)
+!endif
+
+all: $(SUBDIRS)	$(OUTPUT)
+
+$(OUTPUT) _wildcard: $(OBJECTS)
+	@echo $(OUTPUT)
+	@lib.exe -nologo -out:$@ $(OBJECTS)
+
+$(SUBDIRS) _wildcard: empty
+	@echo Building $@
+	@cd $@
+	@nmake -nologo -f makefile.nt
+	@cd ..
+
+empty:
+
+clean:
+	$(CLEANOBJ)
+	$(CLEANOUT)
+	$(CLEANSUBS)
+

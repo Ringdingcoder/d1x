@@ -1,0 +1,383 @@
+      
+                                    D1X
+
+                    Website: http://d1x.warpcore.org
+             
+                               Version: 1.40
+
+ Put these files into your descent directory and run.  If the sound doesn't
+work immediately, see the comment below.  D1x.bat calls the latest version.
+d1x.ini has some of the most benificial options already set and is read
+automatically by d1x if no other ini is specified. You must already have at
+least Descent registered version 1.4a or later to use D1X.
+
+==============================  Introduction  ==============================
+
+D1X is a modification of the Descent 1 source that was released by Parallax.
+It's mostly compatible with the Descent 1 v1.5, both in multiplayer and on
+the local machine.  There are many advantages of D1X over Descentr, as well
+as a few disadvantages.  Please read on.
+
+
+ This modified version of DESCENT is NOT supported by Parallax or Interplay
+
+                         USE AT YOUR OWN RISK!
+
+
+  Many thanks to Kevin Bentley, who went through the original hard work of
+helping to get the d1 source released.  Thanks also go to all the others
+that helped code, beta test, suggest ideas, or otherwise had a hand,
+fingertip, or their whole friggin body in the source code up to this point.
+
+============================================================================
+
+
+=================================  Sound  ==================================
+
+Instead of the HMI drivers, the Allegro sound library was used.  Due to
+this, the normal D1 sound configuration is not used.  Included is the
+allegro.cfg used instead.  Edit it as nescessary (try it without editing,
+it might work just fine.  There is also a allegro sound setup executable
+available, look for it at the D1X website.  Unfortunately, Allegro is only
+compatable with Sound Blasters and fully compatable boards.  If you do not
+have one of these... sorry.
+ If you run d1x and it gives an error initializing sound message, it means
+there is likely a problem with your sound config. Make sure nothing is
+currently using your sound card, and that allegro.cfg is set correctly. If
+this still doesn't work, run the allegro configuration. (available at the
+website)
+
+Alternatively, there is a version using the MikMod digital sound library
+that is available through the website, or a version using both MikMod
+digital and Allegro midi sounds.
+
+ Also of note... the 1.0 -> 1.5 patch for Descent from Interplay has a minor
+bug that makes midi after level 7 become unplayable.  It is suggested that
+you instead patch from 1.0 -> 1.4a and then apply the 1.5 patch if desired.
+
+============================================================================
+
+
+===============================  FEATURES  =================================
+
+               See D1X.TXT for details on some features
+
+v1.50     xx-xx-xxxx
+ -altsounds <f> to load alternate sounds.  see attached example sounds.dat
+ -ihaveabrokenmouse to try to make mouse work if it is not currently.
+ -gl_texmagfilt and -gl_texminfilt to specify OpenGL texture filters.  See
+http://trant.sgi.com/opengl/docs/man_pages/hardcopy/GL/html/gl/texparameter.html
+ for a full description of the possible options.  GL_NEAREST is the default for
+ both parameters.  If you just want a quick rundown: GL_NEAREST will give you
+ the original look and feel of descent, just at higher res, and it is also the
+ fastest.  GL_LINEAR_MIPMAP_NEAREST will give you the effect used in most
+ recent games, which causes bluring of textures, reducing moire effects but
+ also causes, well.. blurriness, and may be slower.  (mipmapping is only
+ available on the min filter, of course.)
+ -gl_mipmap is equivalant to 
+  "-gl_texmagfilt GL_LINEAR -gl_texminfilt GL_LINEAR_MIPMAP_NEAREST"
+ -gl_trilinear is equivalant to 
+  "-gl_texmagfilt GL_LINEAR -gl_texminfilt GL_LINEAR_MIPMAP_LINEAR"
+ -gl_simple is equivalant to
+  "-gl_texmagfilt GL_NEAREST -gl_texminfilt GL_NEAREST"
+ -gl_alttexmerge to enable new texmerge for Opengl that draws both textures,
+  rather than merging them into a single texture.  (default)
+ -gl_stdtexmerge uses default texmerge.  Uses more texture ram, but might be a
+  bit faster
+ -gl_library <l> to specify alternate opengl library to load. (only if d1x was
+  compiled with OGL_RUNTIME defined)
+ -gl_16bittextures attempts to possibly, maybe, use 16 bit textures (though it
+  might already be using them anyway?)
+ -gl_voodoo forces fullscreen mode only.
+ -font(320|640|800|1024) <f> choose font to use at various game resolutions.
+  Note that not all need to be specified, it will use the next lowest one.  (ie,
+  setting -font320 would affect all res, setting -font800 would only affect 800
+  and above)  Some larger fonts can be downloaded at:
+   ftp://ftp.pyropilots.org/pub/d1x/d1bigfnts.zip
+ -gl_reticle <0|1|2> use OGL reticle <never|above 320x* res(default)|always>
+ -menu<X>x<Y> and -menu_gameres command line params.
+ -tmap <type> to select texture mapping routine (software renderer only)
+   type may be "c"(only useful in no_asm builds), "fp"(good for alphas),
+   "i386"(386/486), "pent"(pentiums), "ppro"(pentium pro/p2/p3/celeron/etc)
+ -gl_refresh <r> sets refresh rate in fullscreen opengl (windows only)
+ -hudlog_multi enables automatic hudlog activation in multiplayer games
+ -ip_nogetmyaddr prevents autodetection of local ip address
+ -ip_myaddr <a> uses <a> as local ip address
+ -ip_baseport <p> usen <p> as offset from normal udp port (allows multiple instances of d1x to be run on a single computer)
+ -rearviewtime <t> sets amount of time in seconds holding rear view key until d1x switches to using rear view toggle mode (defaults to the previously hard coded value of 0.25)
+ -ip_bind_addr <a> binds to <a> instead of INADDR_ANY(0.0.0.0)
+ -gl_anisotropy <f> set maximum degree of anisotropy to account for in
+    texture filtering (ex: -gl_anisotropy 2.0)
+ -renderstats to start game with RENDERSTATS enabled
+
+
+ OpenGL multitexturing support in gl_alttexmerge, draws both textures in
+  single pass. (requires GL_NV_texture_env_combine4 extension.)
+ OpenGL brightness/palette effects using SetGammaRamp.
+ Allow custom resolutions to be specified on command line or res change menu.
+ Fixed SDL volume init on startup.
+ Space key in joy axis configuration to rotate through options.
+ OpenGL support for SDL.
+ Rotateable camera while dead
+ New UDP/IP code, NAT-compatible. Both linux and win32. (dos stubs too).
+ Runtime selectable texmapper, no need now for seperate optimized builds.
+ Menus work at any res, and include support for larger fonts. (TODO: insert url
+ to larger fonts, or add em to the d1bigfnts file)
+ OpenGL rendered reticle that sizes to your screen resolution.
+ Support for using different size fonts ingame.
+ RENDERSTATS "cheat" code (currently opengl only) shows render info.  Note that
+  d1x will try to determine the size of the textures being used, but if the 
+  driver does not support it the texture size is based upon the assumption 
+  of 16bit textures.
+ BADTEXTURE "cheat" code (currently opengl only) screws up texturing.
+ Support for using larger fonts. (for high res modes)
+ OpenGL support.  Works with both GLX and WGL.
+ O Netgame list key: join game as an observer
+
+v1.40     09-01-1999
+ -nocdaudio to disable cd audio
+ -nobans to not read ban file
+ -savebans to automatically save new bans after games
+ -pingstats to enable ping display
+ -fullscreen for linux
+ -hwsurface for linux, for a possibly large fps increase
+ -hudlines <n> to set number of messages to show normally
+ -hud <n> for new hud weapon view
+  0 = normal
+  1 = status bar/full screen alternate
+  2 = full screen second alternate
+ -msgcolorlevel <n> to set message colorization level
+  0=none(old style)
+  1=color names in talk messages only(default)
+  2=also color names in kill/join/etc messages
+  3=talk messages are fully colored, not just names
+
+ $ or / preceding f8 commands.  Use : or space to separate (ie /ping player)
+ M Netgame list key: change mission directory
+ alt+shift+kpenter: toggle fullscreen (linux/SDL only)
+ alt+shift+kpmultiply: quick access to res change menu
+ alt+shift+kpdivide: quick access to d1x options menu
+ ctrl-f7: toggle ping display
+ alt-f7: alternate between new/old hud weapon views
+ alt-f8: toggle old message listing
+ more information on netgame list key I
+ new commands: ban, bann, unban, unbann, banlist or listbans, clearbans
+  banning takes place on ip in x.x.x.* format
+ new d1x menu option: save bans.  Writes bans to file immediately.
+  Bans are stored in bans.d1x in the descent directory
+ new d1x menu option: hud message lines.
+ new d1x menu option: message colorization level
+ new d1x menu option: change screen resolution
+ new d1x key submenu (from d1x options or controls)
+ weapon selection key rebinding
+ joystick deadzone slider added
+ ingame reconfig information broadcasted (from gamemaster menu)
+ pickup hostage sound broadcast in multiplayer
+ d1x version communication more reliable
+ shortpackets now sends less information:
+  extra information on fire removed
+  position information removed from almost all packet types
+ spew/death location information sent
+ alternate method for network vulcanfire added to game setup options
+ /altvulcan message command to set d1x players to use alternate vulcanfire
+ fixed black screen with -startnetgame
+ fixed unable to ESC out of -startnetgame
+ Linux UDP/IP  see -?
+ 
+v1.30    11-20-1998
+ -pilot <pilot> to start with selected pilot 
+ -mission <file> to use level <file>
+ -mprofile <file> to load multiplayer game profile
+ -startnetgame to start game immediately
+ -joinnetgame to go to join game list immediately
+ -automap<X>x<Y> for different automap resolution
+ -ackmsg to show packet acknowledgement debug messages
+ -hudlog to start logging hud messages immediately
+ -hudlogdir <d> to put hud logs into specified directory
+ -hudlogstdout to send hud log to standard output as well as hudXXXXX.log
+ -handicap <n> to start with a handicap
+
+ alt-f6 to allow player join in restricted mode
+ alt-shift-f6 to dump player joining in restricted mode
+ alt-f5 pause demo recording
+ new F7 score setting- Kills/Deaths(Game Effeciency%)
+ ctrl-alt-` (left apostrophe/tilde) to start/stop hud logging
+ S Netgame list key: current kill chart
+ pentium and pentium pro optimized versions available for dos/linux
+ screenshots now write to scrnXXXX.pcx, and will not overwrite
+ homers track on closest target to reticle (point at target)
+ proximity bomb counter on hud
+ lifetime pilot effeciency (shown in pause-hudinfo during net games)
+ macros can be functions (messages or commands such as ping:<nick>, etc)
+ basic serial/modem support
+ separated autoselect toggle to primary/secondary
+ increased range for brightness setting
+ increased range for joystick sensitivity
+ load/save multi game profile from game menu
+ autoselect on various laser powerups
+ allow radar, game option for d1x only games
+ ctrl-n master ingame-menu to close/open/restrict game, change reactor invul
+              time, change game name, change max players
+ /d1x:<pilot> request version info from pilot, from all if not specified
+ /shortpackets to set d1x users in game to use short packets
+ handicap:<n> to change handicap during netgame
+              > 100 requires master permission
+ <pilot>:handicap <n> by game master to handicap 
+ new multi, player control:
+  kickn:<n>     kicks player n on the score list
+  disconn:<n>   disconnects player n on the score list
+  ghostn:<n>    ghosts player n on the score list
+  unghostn:<n>  unghosts player n on the score list
+  ignoren:<n>   ignores player n on the score list
+  unignoren:<n> unignores player n on the score list
+  reconn:<n>    reconnects player n on the score list
+  pingn:<n>     pings player n on the score list
+
+v1.20    09-14-1998
+ -nicefps to free cpu cycles between frames (linux only)
+ -joy209 to look at port 209 for the joystick. (instead of 201)
+
+ U/I Netgame list keys: U-users/pilots in game I-info/stats on game
+ shift-esc to quit to dos from game works in multiplayer
+ required packet acknowledging (for kills, reactor explosions, spew)
+ shift-F3: toggle radar on/off (in single player only)
+ plasma fire + bomb explode bug fixed
+ cd controls as per d2. alt -,=,backspace for reverse,forward,play/pause
+ now automatically reads d1x.ini for 'command line' options
+  is not read if alternate -ini is given
+ New Key: Weapon autoselect toggle
+ Linux Kali suport
+ Nice FPS option to free cpu between frames *linux only*
+ Nice Menus to free cpu cycles during menus
+ Sidewinder Joystick configuration support
+ allow changing missiondir from options menu
+
+v1.10    08-21-1998
+ -ini <filename> to use <filename> with pre-set parameters
+ -notitles paramater to not show startup titlescreens.
+ -maxfps <n> to set maximum framerate
+ -demo <filename> starts a demo on startup
+ -fps to start game with FRAMETIME enabled
+
+ cycle weapon keys
+ customizable weapon autoselect ordering
+ d1x options menu for extra options
+ maximum framerate option
+ last message resend: press shift-f8 to resent last message
+ recent message buffer: press alt-f8 to get last 3 messages
+ multiplayer HUD information on pause
+ menu/msg controls still available while dead
+ ping functionality added
+ demo recording shows file size
+ able to play rl2 levels
+ joystick calibration for small-precision joysticks (swppro)
+ space orb support
+ vulcan ammo drop upon death
+ homers lose life while moving straight
+ fixed some occurances of noticable sound aborts
+ weapons no longer can go through doors
+ Energy Bay laser Burst bug fixed
+ multiplayer fusion overcharge is now same as single player
+ create game option to set network socket number
+ d1x only multiplayer option; limits respawning items
+ multiplayer options:
+  powerup ban
+  powerup limiting
+  player limit
+  respawn vulcan ammo
+
+
+v1.00   08-06-1998
+ -pps <n> parameter to specify packets per second
+ -shortpackets parameter to specify short packets if possible
+ -noredundancy to kill 'Already have' messages (-playermessages overrides)
+ -playermessages to kill all except other player's messages
+ -missiondir parameter allows alternate mission directory
+ -cockpit <n> parameter allows different starting cockpits
+    0 (default) = full      2 = bar       3 = fullscreen   (there is no 1)
+
+ create game option to set pps and shortpackets (see below)
+ negotiation between clients to figure out global pps/shortpackets
+ beeps when player joins forming game
+ scaled homing missles to framerate
+ scaled homing missles to difficulty level
+ vulcan no longer dissappears in multiplayer if you already have one
+ Fusion no longer keeps charge when switching weapons
+ fuelcenter sends time-based packets, so no Energy Bay packet Burst
+ FRAMETIME 'cheat'
+ new multiplayer commands
+ join netgame menu has 12 slots
+ loads pog, hxm files
+ longer disconnect timeout (less disconnects/reconnects)
+
+
+============================================================================
+
+
+================================ NETWORK ===================================
+
+The shortpackets and packets per second network code works as follows:
+The host starts the game, choosing as desired packets per second and short
+packets option.  Upon starting the game, and whenever someone joins, the
+host negotiates with other clients to see if they are compatable.  It sends
+info regarding whether to use shortpackets, and what packet rate to use.
+If the game is started with shortpackets, clients who can receive short
+packets will be sent short packets, and all others will be sent normal/long
+packets.  If a non-d1x player becomes host because of original host leaving,
+if there are any d1x players left in the game, they will take over the
+negotiation for shortpackets/pps.  If only non-d1x clients are left in the
+game, it will revert to a normal, non-d1x game, regardless of further joins.
+
+The alternate vulcanfire works works by changing the firing of the vulcan to
+a local system.  Instead of 'fire' packets, the firing player sends 'vulcan
+on' or 'vulcan off' packets.  On packets are sent periodically, but are less
+often than the original vulcan fire packets, and are much smaller.  Off
+packets are sent whenever the trigger is released.  D1x players who have a
+recent enough version keep note of the on/off state of a player, and if
+there is a player that is marked 'on', they create vulcan shots emanating
+from the player at his current position.  If no 'on' packets have been
+received for a period of time (about half a second), then the vulcan
+automatically turns off.  Normal packet behavior is used for any players
+that do not have d1x or do not have a recent enough version.
+
+Either shortpackets or vulcanfire can be turned on for all d1x players by
+anyone in the game.  Simply use the message-command 'shortpackets' or
+'altvulcan'. (don't forget the / or $ in front)
+
+============================================================================
+
+
+==============================  LACKING  ===================================
+
+ -  support for virtual reality devices (library wasn't included).
+ -  setup program (was not included in the Descent source).
+ -  support for other sound cards than Sound Blaster (compatible) cards.
+ -  FM optimized midi 
+      (If you want better midi quality, use Allegro's DIGMID feature).
+
+============================================================================
+
+=========================  CONTIBUTING  CODERS  ============================
+                                
+ - Victor Rachels (Sekmu)
+ - Peter Hawkins (dph)
+ - Jan Kratochvil
+ - Matt Mueller (donut)
+ - Arne de Bruijn (adb)
+ - Kevin Bentley (Kevlar)
+ - Owen Evans (Orulz)
+ - Hans de Goede
+ - Sam Lantinga
+
+============================================================================
+
+
+========================  Bug Reports / Comments  ==========================
+
+          Before submitting bugs, check http://d1x.warpcore.org
+
+                - Comments/Bug reports can be directed to:
+                             vicr@utdallas.edu
+
+============================================================================
+

@@ -1,0 +1,67 @@
+LIBDIR = $(TOPDIR)/lib/
+
+#Figured its better to put it here than in defines, since its not supposed
+#to be set by the user, only the maintainer
+D1XMAJOR = 1
+D1XMINOR = 40
+#for instance, to make ver 1.3, use major=1, minor=40
+
+# definitions for djgpp
+OBJ = obj
+ARC = lib
+
+CC=$(CC)
+CPP=$(CPP)
+#RC=@$(RC)
+
+CFLAGS = -nologo -c -W3 -Zi -I$(TOPDIR)/include
+!ifdef DEBUG
+CFLAGS = $(CFLAGS) -MDd -Od
+!else
+CFLAGS = $(CFLAGS) -MD -Ox -DNDEBUG
+!endif
+!ifndef MONO
+CFLAGS = $(CFLAGS) -DNMONO
+!endif
+!ifdef NETWORK
+CFLAGS = $(CFLAGS) -DNETWORK
+!endif
+!ifdef RELEASE
+CFLAGS = $(CFLAGS) -DRELEASE 
+!endif
+!ifdef SHAREWARE
+CFLAGS = $(CFLAGS) -DSHAREWARE
+!endif
+!ifdef NO_ASM
+CFLAGS = $(CFLAGS) -DNO_ASM
+!endif
+
+!ifdef NOERROR
+CFLAGS = $(CFLAGS) -WX
+!endif
+
+CFLAGS = $(CFLAGS) -DD1XMAJOR=\"$(D1XMAJOR)\" -DD1XMINOR=\"$(D1XMINOR)\"
+
+!ifdef ENV_MSVC
+CFLAGS = $(CFLAGS) -I$(TOPDIR)/arch/win32/include -D__WINDOWS__
+NASM = nasmw -f win32
+!endif
+!ifdef WGL_IO
+CFLAGS = $(CFLAGS) -DWGL_VIDEO -I$(TOPDIR)/arch/ogl/include -DOGL
+!ifdef OGL_RUNTIME
+CFLAGS = $(CFLAGS) -DOGL_RUNTIME_LOAD
+!endif
+!endif
+!ifdef D1XD3D
+CFLAGS = $(CFLAGS) -DD1XD3D
+!endif
+
+!ifdef DXBASE
+CFLAGS = $(CFLAGS) /I$(DXBASE)/include
+LINKLIBS = $(LINKLIBS) /LIBPATH:$(DXBASE)/lib
+!endif
+
+CFLAGS = $(CFLAGS) $(E_CFLAGS)
+CPPFLAGS= $(CFLAGS)
+
+RFLAGS = /fo $@ /i include

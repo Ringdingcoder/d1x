@@ -1,0 +1,627 @@
+Enhancements over the original Descent 1 v1.5 version
+-----------------------------------------------------
+
+This file describes the enhancements over the original Descent 1 v1.5
+version in the current D1X version.
+
+Contents
+--------
+1. Multiplayer menus
+2. Multiplayer commands
+3. Other multiplayer enhancements
+4. General gameplay enhancements
+5. Customize enhancements
+
+
+1. Multiplayer menus
+--------------------
+
+   This section describes the network join game and start game menu
+   enhancements.
+
+   - command line / d1x.ini parameters usable to skip menus:
+     -mission <file> will skip the level selection menu the first time
+                     a game is started
+     -startnetgame will skip all but the level selection menu, up to
+                     waiting for other players to join.
+     -joinnetgame will skip directly to the join player menu
+
+     in conjunction, -pilot <pilot>, -mprofile <file>, -mission <file>,
+      and -startnetgame can be used to avoid many keypresses, giving the
+      ability to go directly from the prompt/desktop to within the game.
+
+
+   - In game, game master menu
+     CTRL-N during a game to bring up this menu.  From here, you can change
+     values for joining players.  You can make the game close/open,
+     restricted, change the maximum number of players, change the game
+     name, and change the reactor invulnerability.  These changes are
+     communicated to all d1x players with versions 1.40 or later, and effect
+     all players joining after the change.  Bans can also be saved locally in
+     this menu. Only the game master has access to this menu.
+
+   - Join game menu
+     This should mostly explain itself. A plus sign (+) after the game
+     number means that it's a D1X game, which is currently only visible
+     for D1X v1.01 and higher users. If the gamemode is UNSUP, then the
+     game uses features not available in your version. Upgrade to a new
+     version to play this game.
+     - U key
+       press the 'U' key to get the users/pilots currently in the
+       selected game
+     - I key
+       press the 'I' key to get game information on the selected game
+     - S key
+       press the 'S' key to get score grid for the selected game
+              (will not automatically update)
+
+   - Multi Profile
+     From the main Start new game menu, you can save and load new profiles.
+     These contain all the possible information for starting a new game,
+     except game name, mission, and level number. This can be automatically
+     loaded from the command line or with d1x.ini.
+
+   - D1X options (submenu from Start new game menu)
+     Here you can set options new for the D1X versions:
+     - Short packets
+       If you enable this there will be less data needed to tell
+       everybody where you are (28 instead of 87 bytes). This helps for
+       internet games to reduce the required bandwidth, which can reduce
+       lag/loss, which means a smoother game :-) The downside is that
+       your position and speed is transferred less precise, so everybody
+       'hops' a bit more, which is why you generally don't want to
+       enable it for LAN games, where you have enough bandwidth.
+       If you specify the parameter -shortpackets, this field is on by
+       default.
+     - Alternate Vulcanfire
+       This enables the use of the alternate firing system for the vulcan
+       cannon. The alternate vulcanfire works works by changing the firing
+       of the vulcan to a local system.  Instead of 'fire' packets, the
+       firing player sends 'vulcan on' or 'vulcan off' packets.  On packets
+       are sent periodically, but are less often than the original vulcan
+       fire packets, and are much smaller.  Off packets are sent whenever
+       the trigger is released.  D1x players who have a recent enough
+       version keep note of the on/off state of a player, and if there is a
+       player that is marked 'on', they create vulcan shots emanating from
+       the player at his current position.  If no 'on' packets have been
+       received for a period of time (about half a second), then the vulcan
+       automatically turns off.  Normal packet behavior is used for any
+       players that do not have d1x or do not have a recent enough version.
+     - Packets per second
+       This is the number of packets that will be send to other players
+       every second to tell where you are. If you do anything special
+       (pickup a powerup, fire, etc.) you will send a packet anyway, so
+       it only affects moving. The higher the number, the more bandwidth
+       you need (bad for internet games), and the smoother everybody
+       moves.
+       With the parameter -pps <n> you can change the default value from
+       10 to <n>.
+     - Network socket
+       Here you can specify another socket than the default of 0. If you
+       use another value than 0, people have to use PgUp/PgDn in the
+       join game menu to find your game.
+     - D1X only game
+       Starting with D1X v1.1, you can make a game D1X only, which
+       means only for D1X v1.1 and higher users. The advantage is that you
+       set some settings not possible with the original game. Also a D1X game
+       uses some special code to avoid more powerups appearing in a
+       level than there where originally, which is often seen when
+       playing over internet.
+
+
+     The following options only work in d1x-only games:
+     - Maximum players
+       Set this to the maximum number of players you want in your game.
+       Useful with internet games if you have a slow connection, or
+       if it's a small level.
+     - Set objects allowed...
+       Here you can remove the various powerups in Descent from the level,
+       e.g. disable the invulnerability powerup if you don't like it.
+       The removed powerups are replaced with shield powerups.
+     - Drop vulcan ammo
+       If you enable this a vulcan ammo powerup will appear somewhere in
+       the level after somebody has shot 1250 rounds.
+     - Enable ignore/ghost
+       This enables the new IGNORE (and releated), GHOST/UNGHOST and
+       DISCON commands (see below). These commands are always enabled
+       for non-d1x games.
+     - Enable radar
+       This enables the radar system for all players in the game.  See
+       below for a description of the radar.
+       
+
+2. Multiplayer commands
+-----------------------
+
+ *** Multiplayer message commands are now prefaced by either a / or a $.
+     commands that take a parameter can use either a space or a colon.
+     ie: to ping, at the f8 prompt "message:"  type: "/ping <pilot>"
+
+   - /ALTVULCAN
+     This function sets all d1x players with compatable versions to use
+     the alternate vulcanfire functionality.  Anyone in the game can use
+     this function.
+
+   - /BAN:<playername>
+     This function bans the specified player.
+     NOTE: You must be the game master in order to use this function.
+     ban changes are not saved between games automatically.  Use the game
+     master menu or the command line switch to save bans.  If you use this
+     on a person who is currently in the game, but does not have the d1x
+     'kick' functionality, the person will not be expelled from the game.
+     Anyone banned, however, will not be able to join as long as you are
+     the game master.  If you save bans, they will be stored in the file
+     bans.d1x in the d1 root directory.  Bans are applied on the tcpip
+     equivalant of x.x.x.*
+
+   - /BANN:<playernum>
+     This functtion works as the above /BAN:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be banned.
+
+   - /UNBAN:<playername>
+     This function unbans the specified player.
+     NOTE: You must be the game master in order to use this function.
+     ban changes are not saved between games automatically.  Use the game
+     master menu or the command line switch to save bans.
+
+   - /UNBANN:<playernum>
+     This functtion works as the above /UNBAN:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be unbanned.
+
+   - /BANLIST or /LISTBANS
+     Lists the current game's bans.
+
+   - /CLEARBANS
+     Clears all bans from the list.  Just like using UNBAN or UBANN on each
+     ban.
+
+   - /D1X:[playername]
+     This function communicates to other players in the game, and requests
+     a resyncronization of d1x versions.  It will reset packets per second,
+     shortpacket values, and version numbers for the selected player.  If
+     you do not include a player name, it will request resync from everyone
+     currently in the game
+
+   - /SHORTPACKETS
+     This function sets all d1x players currently in the game to use
+     shortpackets.  Any D1X user can initiate this command in a game.
+
+   - /HANDICAP:<value>
+     Use this function to give yourself a handicap of <value>.  Afterward,
+     the ship will respawn with shields at this value.  To turn this off,
+     call HANDICAP:100.  For values above 100, you must either be game
+     master, or the game will ask permission of the game master.
+
+   - <playername>:HANDICAP <value>
+     The game master can send this message to any d1x player (even if he
+     is not a d1x player, himself) to set the handicap of that person.
+     Only the game master can set a person's handicap above 100.
+
+   - /KICK:<playername>
+     This command will kick an offensive or lagged user out of a game.
+     NOTE: This command ONLY works if you are game master. It also WILL
+     NOT work if the player you are trying to kick doesn't use THIS
+     version of Descent.
+
+   - /KICKN:<playernum>
+     This functtion works as the above KICK:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be kicked.
+
+   - /DISCON:<playername>
+     Temporarily disconnects a player from YOUR game. (Not from
+     everyones.) Normally, they will appear back into the game within a
+     very short time. On one occasion, the ignore command, (described
+     later,) did not ignore a player until this command was issued after
+     the ignore command was issued. This command is still here just for
+     such an occasion.
+     This command can be disabled in D1X games (by disabling ignore/ghost).
+
+   - /DICONN:<playernum>
+     This functtion works as the above DISCON:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be disconnected.
+
+   - /GHOST:<playername>
+     Removes a pilot-less ship from the game. Many people are familiar
+     with the "phantom ship" syndrome.  This occurs when a player
+     disconnects from a game, and Descent doesn't get around to cleaning
+     up that player's ship.  The result is a "phantom ship" that can get
+     in your way.  This command removes them.
+     This command and the related UNGHOST command can be disabled in D1X
+     games.
+
+   - /GHOSTN:<playernum>
+     This functtion works as the above GHOST:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be ghosted.
+
+   - /UNGHOST:<playername>
+     This command essentially raises the dead phantom ships, in case you
+     want to play pyro volleyball with megas and these invulnerable
+     entities. ;-)
+
+   - /UNGHOSTN:<playernum>
+     This functtion works as the above UNGHOST:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be unghosted.
+
+   - /IGNORE:<playername>
+     Adds an offensive or lagged player to the ignore list.  This ignore
+     list is a list that holds names of which Descent should not accept
+     multi play packets from.  The effect is that that player disconnects
+     from the game and is gone. This command is useful if you are not
+     game master, and thus cannot kick, but want a player out of the
+     game.  It is also useful if the player you want to kick doesn't use
+     D1X v1.00, and kick doesn't work. Descent clears the ignore list
+     automatically when you restart it.
+     NOTE: When you ignore someone, Descent reports this to all the
+     players with the message: "I'm now ignoring <playername>!" so that
+     all players know that you are ignoring somebody. This is currently
+     not send to the player you just ignored.
+     This command and all related commands can be disabled in D1X games.
+
+   - /IGNOREN:<playernum>
+     This functtion works as the above IGNORE:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be ignored.
+
+   - /UNIGNORE:<playername>
+     This command removes a player from the ignore list.  NOTE: In this
+     current version, the player will not just "pop" back in the game
+     when you unignore them.  Your version has to receive some packets
+     from them that tells it "I'm here," before they can rejoin.
+
+   - /UNIGNOREN:<playernum>
+     This functtion works as the above UNIGNORE:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     be unignored.
+
+   - /CLEARIGNORE
+     This command clears the ignore list of all player names.
+
+   - /LISTIGNORE
+     This command lists the names of all the players you have ignored on
+     the HUD.
+
+   - /PING:<playername>
+     This command tells you how long it takes to send a packet to
+     <Playername> and back to you. It is very slightly inaccurate, since
+     packets are only processed every frame, so the minimum time is at worst
+     1/<your FPS> + 1/<their FPS> when the real ping is 0.
+     You don't have to specify the full playername, the first that matches
+     the character(s) you gave is used.  If you enter only "PING:", it will
+     ping all players, though the numbers will be slightly higher.
+
+   - /PINGN:<playernum>
+     This functtion works as the above PING:<playername>, but uses the
+     current order of players in the kill list to select the player to
+     ping.
+
+
+3. Other multiplayer enhancements
+---------------------------------
+
+   - Serial and Modem support
+     Basic serial and modem support has been made available for both
+     DOS (or in windows) and Linux.  These are still in early stages... bug
+     reports are very welcome.
+
+   - ping statistics: ping loss%
+     pressing ctrl-f7 turns on the ping display.  This periodically pings
+     the other players in the game, and shows the most recent pingtime, and
+     keeps a loss statistic next to the player names score.  The loss values
+     are reset every 5 minutes.  At the times when the values are reset, the
+     loss may jump to negative or slightly positive numbers for a time.
+     Don't worry about it until it stays consistant over longer periods of
+     time.  As of d1x 1.40, ping packets are very small.  Older versions of
+     d1x, however, user rather large packets for pinging, so beware if there
+     are many players with older versions using this functionality, as it
+     might lead to packet flooding.  You can turn this display on by default
+     with the command line switch -pingstats
+
+   - new F7 score setting - kills/deaths(Game Effeciency%)
+     Along with the previous settings of pilot statistics, press F7 to
+     how in the player stats, each pilot's kills, deaths, and their current
+     game effeciency.
+
+   - Recent message buffer
+     Press Alt-F8, and the last HUD messages will be repeated, up to
+     the full screen.
+
+   - hud message logging
+     turn on or off hud message logging using ctrl-alt-` (left apostrophe)
+     This writes to the file hudXXXXX.log all hud messages, including game
+     responses, commands, player messages, and others.  Logging is halted
+     and the file closed when you press this key again, quit a game, or
+     exit the mission.  A score chart is appended to the end of the file
+     at this time.
+
+   - Macros can be functions
+     You can now edit your macros to contain functions, such as pingn:1 or
+     various other commands or messages.
+
+   - Lifetime pilot effeciency
+     lifetime kills/deaths effeciency is stored in <pilot>.eff.  Viewable
+     from within the game on the pause-hud info screen in multiplayer mode.
+
+   - Homers track on closeest target to reticle
+     Homers will lock on, when fired, to the object that is most most
+     directly in front of the ship.  They will track on the closest object
+     to the homers line of direction  (this is usually the first-targetted
+     object)
+
+   - Kalinux support is now available for Linux users
+
+   - Required packet acknowledgment for certain types of information,
+     including scores, deaths, spew, etc.  In other words, between D1X
+     clients, there should be no loss of these types of information.
+
+   - Shift-ESC now quits to dos from multiplayer
+
+   - You can't pick up multiple vulcan cannons in multiplayer anymore
+     If you moved (accidentally) over a vulcan cannon in a multiplayer
+     game in the original Descent 1, you would pick it up like in
+     single player.
+
+   - When someone holding the vulcan cannon dies, and they have more than
+     2500 vulcan rounds, more vulcan ammo packs are also dropped, equal
+     to the amount of ammo remaining upon death
+
+   - Player joining forming game alert
+     Now when a player joins your forming game, a audible beep will
+     sound to let you know someone wants to join. (Useful if you're like
+     me, and fall asleep waiting...)
+
+   - -playermessages parameter to suppress messages you get when you
+     pickup powerups or run over powerups you don't have.
+
+   - HUD netgame info
+     If you press Pause during a multiplayer game, you get some info
+     about the game and the players on your HUD. Press Pause again to
+     remove it.
+
+   - Recent message buffer
+     Press Alt-F8, and the last three HUD messages will be repeated.
+     Repeated messages will start with a '*'.
+
+   - Energy Bay Packet Burst no longer exists.  In the original Descent,
+     sound packets were sent with each ~frame to let others hear you
+     getting energy.  From fast computers, this would cause large amounts
+     of packets, very often flooding modems and causing a large jump in
+     the game.
+
+
+4. General gameplay enhancements
+--------------------------------
+
+   These enhancements are useful for both single and multiplayer.
+
+   - proximity bomb counter on hud
+
+   - screenshots are written to scrnXXXX.pcx and will not overwrite
+     existing screenshots
+
+   - increased ranges for brightness and joystick settings
+     Short calibration is no longer needed, and low-gamma monitors, or
+     video cards are compensated for
+
+   - optimizations for pentium and pentium pro/pentium II
+     exe's are available in optimized versions.  There are some -slight-
+     play differences for the optimized versions.  Most have been fixed,
+     but at this point, the energy bay crystals do not give off as much
+     light as in the normal version.  Other effects might also result.
+
+   - -hwsurface command line switch
+     For Linux users, only.  Instead of using local ram buffer, the
+     framebuffer is accessed directly for displaying.  Usually gains quite
+     a few fps.
+
+   - -nicefps parameter
+     Allows you to specify Nice FPS for Linux
+
+   - Nice FPS option
+     You can use this, in the linux build, to free cpu cycles
+     between frames.  The lower the maximum fps is set, the more cpu
+     cycles will be freed, normally.
+
+   - Nice Menus
+     Frees cpu during menu browsing in the linux build.  Almost 0% cpu
+     usage in most cases.
+
+   - -joy209 parameter
+     If you have multiple gameports, the second will almost always use
+     port 209.  use this parameter to specify looking at the second
+     port for the joystick.
+
+   - dropping bombs while firing plasma usually no longer explodes
+
+   - cd controls are implemented.  To start or stop (pause), press alt
+     backspace.  To skip to next track, alt =.  To skip to previous
+     track, alt -.  The current track will repeat.  May have strange
+     behaviour with audio/data cds.
+
+   - integrated Sidewinder joystick calibration, no need to do the old
+     workarounds
+
+   - d1x option to change mission directory from within the game
+
+   - New key: weapon autoselect toggle.  Toggless automatic weapon
+     changing.  Still allows cycle keys and direct weapon switch.
+
+   - Shift-F3 toggles radar on/off.
+     top half of radar screen is "above",  bottom half is "below".
+     left half is to your left, and right half is to your right.
+     within the center circle is usually ~onscreen.
+
+   - automatically reads d1x.ini.  If any other -ini is used, d1x.ini
+     is not automatically read.
+
+   - -ini <file> parameter
+     You can use this instead of a list of command line options to run
+     d1x.  Put all the command line options you use into the specified
+     file, each option on a separate line.  ie: d1x140 -ini myini.txt
+     where the file would look like:
+            -missiondir missions
+            -notitles
+            -fps
+            -pps 7
+            -shortpackets
+            -playermessages
+            -cockpit 2
+     etc.
+
+
+   - -notitles parameter skips the first two title screens when starting
+     the game.
+
+   - -noredundancy parameter to suppress messages you get when you run
+     over powerups you don't have.
+
+   - -missiondir <directory> parameter
+     With this parameter you can specify an alternate mission directory.
+     E.g. if you want to use the missions subdirectory for your missions,
+     like D2, you start d1x with -missiondir missions.
+
+   - Alternate hud views
+     Switch between the new alternate hud views using alt-f7.  You can
+     set the default using the command line switch -hud <n>.  There
+     are three settings.
+      0 = normal
+      1 = show weapon/ammo/availability listings
+      2 = in fullscreen, same as #1, but in different places.  In cockpit
+          or statusbar, exact same as #1.
+
+   - -cockpit <n> parameter
+     With this option you can set the initial cockpit to something other
+     than the full cockpit.
+     You must specify a value after -cockpit to indicate which cockpit
+     you want:
+	 0 - full cockpit
+	 2 - status bar
+	 3 - full screen
+
+   - -demo parameter
+     With this option you can immediately start a demo. You must add the
+     filename of the demo (e.g. mydemo.dem) after the -demo option.
+     The demo will keep playing until you hit ESC.
+
+   - -fps parameter
+     Automatically enables framerate display on startup
+
+   - -maxfps <n> parameter
+     Allows you to specify the default maximum framerate.  Maximum
+     possible for this value is 100.
+
+   - Maximum framerate option
+     Allows you to set the maximum framerate.  The game will go at most
+     the value you specify.  Below is definitely possible.  Maximum
+     possible for this value is 100.
+
+   - FRAMETIME 'cheat'.
+     When you type FRAMETIME during the game, a FPS (frames per second)
+     indicator will appear/disappear.
+     You can enable this by default by specifing the -fps parameter.
+
+   - Customizable weapon autoselect order
+     There are two new options in the Options menu (or F2 in the game)
+     to set the primary and secondary autoselect ordering. If you pick
+     up a weapon that you didn't have before, and that weapon is above
+     the weapon that you currently use in the ordering list, it will be
+     selected. Also if you are out of ammo for your current weapon, the
+     highest weapon in the ordering list for which you have ammo is
+     selected. If a weapon is below the Never autoselect line, it will
+     never be selected automatically.
+     For the curious: this information is stored in <callsign>.plx files
+     (in a plain text format) to keep the .plr files compatible with the
+     original Descent 1.
+
+   - Cycle primary/secondary keys
+     in the key configuration menu for joysticks and keyboard, there is
+     now a cycle primary and cycle secondary key position.  Any normal
+     configurable key can be used.  These weapons cycle down the
+     autoselect list. (same as d2)
+
+   - Doing things while being dead
+     You can now send messages and change options when you are death.
+
+   - Fusion no longer keeps charge when switching weapons (aka fusion bug)
+     In the original Descent you can charge the fusion, switch to
+     another weapon, and switch back to the fusion. This was removed
+     because it's an undocumented hidden feature that gives you quite an
+     advantage when you know it, which is unfair against those who don't
+     know about it.
+
+   - Weapons no longer fire 'through' doors.
+     In the original Descent, if you were close enough, some weapons would
+     originate on the opposite side of a door without opening it.
+
+   - Energy Bay Laser Burst no longer exists.  In the original Descent,
+     after running out of energy, you could switch to lasers, hold down the
+     fire button, and move into an energy bay.  Large amounts of rapid fire
+     lasers would be shot, depending on how long you had held down fire.
+
+5. Customize enhancements
+-------------------------
+
+   You can do one or multiple of the things below to add customized
+   elements to your level.
+
+   - Customizable images
+     You can replace a Descent 1 image with an image created by
+     yourself. Here images are all things you see while playing:
+     textures, powerups, cockpit etc.
+     You can use DTX by Stefan Nilsson to create .dtx patch files with
+     your new images. Give this file the same name as your level
+     (replace .rdl with .dtx), and put it in your mission hog or in your
+     missions directory, and the images in that level should be replaced
+     with the onces in the .dtx file.
+     Note that unlike Descent 2 the original textures are restored when
+     you go to another level.
+
+     It's also possible to use Descent 2 .pog compatible file renamed to
+     .pg1, but since you can't use the D2 tools because D2 has different
+     image numbers and there are no D1 .pog tools, it's not recommend.
+
+   - Customizable sounds
+     This works just the same as customizable images. Add your sounds
+     to the same .dtx patch file (possibly without images), and you
+     should hear them instead of the onces you replaced.
+     Sounds are restored when you go to another level too.
+
+   - Customizable robot data
+     You can modify the robot data used by Descent. This means
+     behaviour, weapon, score, etc. Use a tool for Descent 2
+     to create a .hxm with your customized data, rename it to .hx1,
+     and it should work with D1X v1.00+.
+     Note that the following (and releated) D2 attributes don't work in
+     D1:
+     weapon 2, kamikaze, badass, enery drain, taunt sound, companion,
+     smart blobs, energy blobs, thief, pursuit, lightcast, death roll,
+     flags, default behavior, aim.
+
+   - Customizable polymodels
+     You can replace any polymodel (robots, ship, missiles, etc.) with
+     one you create, just like in D2 v1.2. There are currently no tools
+     specifically for D1 polymodels, but you can use the D2 ones.
+     Building (e.g. with Polytron by Descent Network) gives no troubles,
+     but since the model numbers differ between D1 and D2, you can't use
+     the model number descriptions given by D2 tools when creating a
+     .hxm with your polymodel. Also the robot animation (joint
+     positions) might give problems.
+
+   - .mid support
+     It has always been possible to add custom music to your levels by
+     including the game<n>.hmp/hmq files in your .hog, but it sometimes
+     (often?) gives problems to convert your song to the hmp format.
+     D1X v1.01 and higher will first search for .mid files before
+     it'll read the .hmp ones, allowing you to skip the hmp conversion.
+
+   - Briefing 'language' enhancements
+     You can use the following new $-commands:
+     $C2...$C7 for resp. red, blue, gray, yellow and purple.
+     $$ to print a $
+     $; to print a ;
+

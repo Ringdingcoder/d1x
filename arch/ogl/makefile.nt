@@ -1,0 +1,19 @@
+TOPDIR = ../..
+
+!include $(TOPDIR)/defines.mak
+
+#OBJECTS += init.$(OBJ)
+
+OBJECTS = gr.$(OBJ) ogl.$(OBJ)
+
+!ifdef SDLGL_IO
+OBJECTS = $(OBJECTS) sdlgl.$(OBJ)
+!endif
+!ifdef WGL_IO
+OBJECTS = $(OBJECTS) wgl.$(OBJ)
+!endif
+
+OUTPUT = $(LIBDIR)ogl.$(ARC)
+
+!include $(TOPDIR)/default.nt
+CFLAGS = $(CFLAGS) -I$(TOPDIR)/main

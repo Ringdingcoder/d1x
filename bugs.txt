@@ -1,0 +1,19 @@
+LINUX:
+ segfault on exit sometimes  (-320x... modes)
+
+DOS
+ Allegro conflict with network cards at I/O 230->
+ occasional reboot-on-exit (more sound stuff)
+
+WINDOWS
+ midi crash when vol set to 0
+ kali games on some systems act like 95% loss, 30s ping
+
+ALL:
+ can't rejoin team game
+ almost always, quitting players' are left unghosted and unannounced
+  **this has been hacked-fixed, but still needs to be fixed, for real.
+ problems rejoining some multiplayer games. (esp levels with no reactor)
+ shieldball disappearance in multi - this is local, I believe (fixed?)
+
+

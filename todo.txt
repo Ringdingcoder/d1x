@@ -1,0 +1,59 @@
+alternate sounds
+ - allow resetting altsounds within the game (menu or mission.d1x)
+ - make sure linux versions work correctly
+ - fix bitrate/channel/ non-allegro frequency changing (only 8b/11khz atm)
+
+dos and/or window udp/ip
+
+mute
+non-blank init string causes modem not to work (dos only?)
+
+co-op save game
+laser/spread/plasma same as vulcan?
+
+add uses for ingame change sync. change ban items, etc
+
+shareware compile:
+  gets broken a lot between versions, usually needs fixing.
+  network code is broken, or if it does work should really be updated with all
+ the fixes/additions in the registered ver.
+
+Allegro stuff:
+  autselect gives better sound ???
+  allegro sucks.  add ocp if possible
+  update allegro if we are going to continue using it.
+
+Linux stuff:
+  if memory allocation  checker added... mostly fixed?
+  editor compile  done?
+  non-x86
+  windowed-mode 'disable' mouse while playing
+
+SDL
+  there might still be some obscure keys not supported
+  fix broken fullscreen for SDL 0.10+
+  fix broken automap for SDL 0.? (11, maybe 10)
+  fix broken link for SDL 0.11 (needs -lX11 for some reason.. probably another SDL bug.. sdl-config doesn't say you need it.)
+
+windows stuff:
+  kali ipx  done? odd bugs?
+  keyboard arrow keys don't work (did in 1.34) ?
+
+WGL:
+  pressing a button after res/fullscreen change causes crash.
+
+Mingw32:
+Don't use the mouse. There's a terrible bug that causes you to click
+icons on your desktop behind the Descent window!
+
+Don't use the ingame screen res changer. It crashes the game!
+
+Sometimes it won't read your keyboard proporly.
+
+
+D3D:
+joystick doesn't work
+Radar crashes it
+Can't go to fullscreen or cockpit.
+Weird, warpy effect on walls when you turn the ship
+
