@@ -87,6 +87,9 @@ static char rcsid[] = "$Id$";
 int Num_args=0;
 char * Args[100];
 
+#define strncasecmp strnicmp
+#define strcasecmp stricmp
+
 int FindArg( char * s )	{
 	int i;
 

@@ -330,12 +330,12 @@ void wall_set_tmap_num(segment *seg,int side,segment *csegp,int cside,int anim_n
 	if (anim->flags & WCF_TMAP1)	{
 		seg->sides[side].tmap_num = csegp->sides[cside].tmap_num = tmap;
 		if ( Newdemo_state == ND_STATE_RECORDING )
-			newdemo_record_wall_set_tmap_num1(seg-Segments,side,csegp-Segments,cside,tmap);
+			newdemo_record_wall_set_tmap_num1((short) (seg-Segments),(ubyte) side,(short) (csegp-Segments),(ubyte) cside,(short) tmap);
 	} else	{
 		Assert(tmap!=0 && seg->sides[side].tmap_num2!=0);
 		seg->sides[side].tmap_num2 = csegp->sides[cside].tmap_num2 = tmap;
 		if ( Newdemo_state == ND_STATE_RECORDING )
-			newdemo_record_wall_set_tmap_num2(seg-Segments,side,csegp-Segments,cside,tmap);
+			newdemo_record_wall_set_tmap_num2((short) (seg-Segments),(ubyte) side,(short) (csegp-Segments),(ubyte) cside,(short) tmap);
 	}
 }
 
@@ -534,7 +534,7 @@ void wall_open_door(segment *seg, int side)
 		vms_vector cp;
 		compute_center_point_on_side(&cp, seg, side );
 		if (WallAnims[w->clip_num].open_sound > -1 )
-			digi_link_sound_to_pos( WallAnims[w->clip_num].open_sound, seg-Segments, side, &cp, 0, F1_0 );
+			digi_link_sound_to_pos( WallAnims[w->clip_num].open_sound, (short) (seg-Segments), (short) side, &cp, 0, F1_0 );
 
 	}
 }
@@ -741,7 +741,7 @@ void do_door_close(int door_num)
 					vms_vector cp;
 					compute_center_point_on_side(&cp, seg, side );
 					if (WallAnims[w->clip_num].close_sound  > -1 )
-						digi_link_sound_to_pos( WallAnims[Walls[seg->sides[side].wall_num].clip_num].close_sound, seg-Segments, side, &cp, 0, F1_0 );
+						digi_link_sound_to_pos( WallAnims[Walls[seg->sides[side].wall_num].clip_num].close_sound, (short) (seg-Segments), (short) side, &cp, 0, F1_0 );
 				}
 	
 		d->time += FrameTime;

@@ -1,9 +1,7 @@
-#define byte w32_byte
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "winhdr.h"
 #include <stdio.h>
+#define DIRECTINPUT_VERSION 0x0700
 #include <dinput.h>
-#undef byte
 //#include "inferno.h"
 #include "fix.h"
 #include "timer.h"

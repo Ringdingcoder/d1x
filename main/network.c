@@ -232,7 +232,7 @@ int network_change_socket(int new_socket)
                 Network_socket = new_socket;
                 mprintf(( 0, "Changing to socket %d\n", Network_socket ));
                 network_listen();
-                ipx_change_default_socket( IPX_DEFAULT_SOCKET + Network_socket );
+                ipx_change_default_socket( (ushort) (IPX_DEFAULT_SOCKET + Network_socket) );
                 return 1;
         }
         return 0;

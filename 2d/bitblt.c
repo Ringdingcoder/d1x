@@ -1027,7 +1027,7 @@ void gr_bm_ubitblt0x_rle(int w, int h, int dx, int dy, int sx, int sy, grs_bitma
 
 // rescalling bitmaps, 10/14/99 Jan Bobrowski jb@wizard.ae.krakow.pl
 
-inline void scale_line(byte *in, byte *out, int ilen, int olen)
+void scale_line(byte *in, byte *out, int ilen, int olen)
 {
 	int a = olen/ilen, b = olen%ilen;
 	int c = 0, i;

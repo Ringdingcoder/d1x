@@ -83,8 +83,8 @@ typedef unsigned long ulong;
 //this should really be defined system specifically somehow,
 //as it is in linux's sys/types.h.. but I guess I'll leave that
 //to someone who needs it :)
-typedef unsigned long long int u_int64_t;
-typedef long long int int64_t;
+typedef unsigned _int64 u_int64_t;
+typedef signed _int64 int64_t;
 typedef unsigned int u_int32_t;
 typedef int int32_t;
 typedef unsigned short u_int16_t;
@@ -134,6 +134,11 @@ typedef ubyte bool;
 #ifdef _MSC_VER
 #pragma pack (1)
 #pragma warning (disable: 4103)
+
+#pragma warning (disable: 4018) // != signed/unsigned
+#pragma warning (disable: 4113) // atexit type mismatch
+#pragma warning (disable: 4244) // float -> int
+
 #ifndef inline
 #define inline _inline
 #endif
@@ -141,5 +146,8 @@ typedef ubyte bool;
 #define far
 #endif
 #endif
+
+#define strncasecmp strnicmp
+#define strcasecmp stricmp
 
 #endif

@@ -13,7 +13,7 @@
 
 #elif defined(__WINDOWS__)
 
-#include <windows.h>
+#include "winhdr.h"
 
 #define MAX_GLOB_FILES 500
 

@@ -2292,7 +2292,7 @@ void diminish_palette_towards_normal(void)
 	if (PaletteBlueAdd < 0 ) { PaletteBlueAdd += dec_amount; if (PaletteBlueAdd > 0 ) PaletteBlueAdd = 0; }
 
 	if ( (Newdemo_state==ND_STATE_RECORDING) && (PaletteRedAdd || PaletteGreenAdd || PaletteBlueAdd) )
-		newdemo_record_palette_effect(PaletteRedAdd, PaletteGreenAdd, PaletteBlueAdd);
+		newdemo_record_palette_effect((short) PaletteRedAdd, (short) PaletteGreenAdd, (short) PaletteBlueAdd);
 
 	gr_palette_step_up( PaletteRedAdd, PaletteGreenAdd, PaletteBlueAdd );
 

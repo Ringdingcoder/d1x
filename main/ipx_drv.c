@@ -14,7 +14,8 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/time.h>
+#include <malloc.h>
+//#include <sys/time.h>
 
 #include "types.h"
 #include "config.h"

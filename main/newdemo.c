@@ -972,7 +972,7 @@ static void nd_write_int(int i)
 
 static void nd_write_string(char *str)
 {
-	nd_write_byte(strlen(str) + 1);
+	nd_write_byte((byte) (strlen(str) + 1));
 	newdemo_write(str, strlen(str) + 1, 1);
 }
 
@@ -1554,7 +1554,7 @@ void newdemo_record_start_frame(int frame_number, fix frame_time )
 	Assert(frame_number >= 0 );
 
 	nd_write_byte(ND_EVENT_START_FRAME);
-	nd_write_short(frame_bytes_written - 1);		// from previous frame
+	nd_write_short((short) (frame_bytes_written - 1));		// from previous frame
 	frame_bytes_written=3;
 	nd_write_int(frame_number);
 	nd_write_int(frame_time);
@@ -2294,7 +2294,7 @@ int newdemo_read_frame_information()
 			nd_read_int(&objnum);
 			if (nd_bad_read) { done = -1; break; }
 			if (Newdemo_vcr_state != ND_STATE_PAUSED)
-				check_trigger(&Segments[segnum], side, objnum);
+				check_trigger(&Segments[segnum], (short) side, (short) objnum);
 			break;
 
 		case ND_EVENT_HOSTAGE_RESCUED: {
@@ -3443,7 +3443,7 @@ void newdemo_stop_recording()
 #endif
 
 	nd_write_byte(ND_EVENT_EOF);
-	nd_write_short(frame_bytes_written - 1);
+	nd_write_short((short) (frame_bytes_written - 1));
 	if (Game_mode & GM_MULTI) {
 		for (l = 0; l < N_players; l++) {
 			if (Players[l].flags & PLAYER_FLAGS_CLOAKED)
@@ -3500,7 +3500,7 @@ void newdemo_stop_recording()
 	nd_write_short(byte_count);
 #endif
 
-	nd_write_byte(Current_level_num);
+	nd_write_byte((byte) Current_level_num);
 	nd_write_byte(ND_EVENT_EOF);
 
 	l = ftell(outfile);

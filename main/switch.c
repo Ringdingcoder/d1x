@@ -332,23 +332,23 @@ int check_trigger_sub(int trigger_num, int pnum)
 
 	if (Triggers[trigger_num].flags & TRIGGER_CONTROL_DOORS) {
 		mprintf((0,"D"));
-		do_link(trigger_num);
+		do_link((byte) trigger_num);
 	}
 
 	if (Triggers[trigger_num].flags & TRIGGER_MATCEN) {
 		if (!(Game_mode & GM_MULTI) || (Game_mode & GM_MULTI_ROBOTS))
-			do_matcen(trigger_num);
+			do_matcen((byte) trigger_num);
 	}
 
 	if (Triggers[trigger_num].flags & TRIGGER_ILLUSION_ON) {
 		mprintf((0,"I"));
-		do_il_on(trigger_num);
+		do_il_on((byte) trigger_num);
 	}
 
 	if (Triggers[trigger_num].flags & TRIGGER_ILLUSION_OFF) {
 //		Triggers[trigger_num].time = TRIGGER_DELAY_DOOR;
 		mprintf((0,"i"));
-		do_il_off(trigger_num);
+		do_il_off((byte) trigger_num);
 	}
 	return 0;
 }

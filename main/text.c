@@ -77,6 +77,7 @@ static char rcsid[] = "$Id$";
 #include <stdlib.h>
 #include <string.h>
 
+#include "types.h"
 //#include "cfile.h"
 #include "cfile.h"
 #include "u_mem.h"

@@ -932,7 +932,7 @@ int gr_internal_color_string(int x, int y, char *s )
 }
 
 #else //OGL
-#include "../main/inferno.h"
+#include "inferno.h"
 #include "ogl_init.h"
 #include "args.h"
 //font handling routines for OpenGL - Added 9/25/99 Matthew Mueller - they are here instead of in arch/ogl because they use all these defines

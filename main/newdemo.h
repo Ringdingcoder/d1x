@@ -175,6 +175,8 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 
 #ifdef NEWDEMO
 
+#include "morph.h"
+
 #define ND_STATE_NORMAL				0
 #define ND_STATE_RECORDING			1
 #define ND_STATE_PLAYBACK			2
@@ -208,7 +210,7 @@ extern void newdemo_record_sound( int soundno );
 extern void newdemo_record_wall_hit_process( int segnum, int side, int damage, int playernum );
 extern void newdemo_record_trigger( int segnum, int side, int objnum );
 extern void newdemo_record_hostage_rescued( int hostage_num );
-extern void newdemo_record_morph_frame();
+extern void newdemo_record_morph_frame(morph_data *md);
 extern void newdemo_record_player_stats(int shields, int energy, int score );
 extern void newdemo_record_wall_toggle(int segnum, int side );
 extern void newdemo_record_control_center_destroyed();

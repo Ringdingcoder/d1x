@@ -104,10 +104,9 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 * 
 */
 
-#define byte w32_byte
-#define WIN32_LEAN_AND_MEAN
+#include "winhdr.h"
+#define DIRECTINPUT_VERSION 0x0700
 #include <dinput.h>
-#undef byte
 
 
 #include <stdlib.h>

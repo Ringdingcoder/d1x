@@ -227,7 +227,7 @@ void do_powerup_frame(object *obj)
 		object_create_explosion(obj->segnum, &obj->pos, fl2f(3.5), VCLIP_POWERUP_DISAPPEARANCE );
 
 		if ( Vclip[VCLIP_POWERUP_DISAPPEARANCE].sound_num > -1 )
-			digi_link_sound_to_object( Vclip[VCLIP_POWERUP_DISAPPEARANCE].sound_num, obj-Objects, 0, F1_0);
+			digi_link_sound_to_object( Vclip[VCLIP_POWERUP_DISAPPEARANCE].sound_num, (short) (obj-Objects), 0, F1_0);
 	}
 }
 
@@ -426,7 +426,7 @@ int do_powerup(object *obj)
 				hud_message(MSGC_PICKUP_TOOMUCH, TXT_MAXED_OUT,TXT_LASER);
                         } else {
 				if (Newdemo_state == ND_STATE_RECORDING)
-					newdemo_record_laser_level(Players[Player_num].laser_level, Players[Player_num].laser_level + 1);
+					newdemo_record_laser_level(Players[Player_num].laser_level, (byte) (Players[Player_num].laser_level + 1));
 				Players[Player_num].laser_level++;
 				powerup_basic(10, 0, 10, LASER_SCORE, "%s %s %d",TXT_LASER,TXT_BOOSTED_TO, Players[Player_num].laser_level+1);
 				update_laser_weapon_info();

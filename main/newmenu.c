@@ -580,12 +580,12 @@ static char rcsid[] = "$Id$";
 int Newmenu_first_time = 1;
 //--unused-- int Newmenu_fade_in = 1;
 
-typedef struct bkg {
+typedef struct bkg3 {
 	grs_canvas * menu_canvas;
 	grs_bitmap * saved;			// The background under the menu.
 	grs_bitmap * background;
 	int background_is_sub;
-} bkg;
+} bkg3;
 
 grs_bitmap nm_background;
 
@@ -694,7 +694,7 @@ void nm_restore_background( int x, int y, int w, int h )
 }
 
 // Draw a left justfied string
-void nm_string( bkg * b, int w1,int x, int y, char * s )
+void nm_string( bkg3 * b, int w1,int x, int y, char * s )
 {
 	int w,h,aw;
         char *p,*s1=0;
@@ -728,7 +728,7 @@ void nm_string( bkg * b, int w1,int x, int y, char * s )
 
 
 // Draw a slider and it's string
-void nm_string_slider( bkg * b, int w1,int x, int y, char * s )
+void nm_string_slider( bkg3 * b, int w1,int x, int y, char * s )
 {
 	int w,h,aw;
         char *p,*s1=0;
@@ -763,7 +763,7 @@ void nm_string_slider( bkg * b, int w1,int x, int y, char * s )
 
 
 // Draw a left justfied string with black background.
-void nm_string_black( bkg * b, int w1,int x, int y, char * s )
+void nm_string_black( bkg3 * b, int w1,int x, int y, char * s )
 {
 	int w,h,aw;
 	gr_get_string_size(s, &w, &h, &aw  );
@@ -778,7 +778,7 @@ void nm_string_black( bkg * b, int w1,int x, int y, char * s )
 
 
 // Draw a right justfied string
-void nm_rstring( bkg * b,int w1,int x, int y, char * s )
+void nm_rstring( bkg3 * b,int w1,int x, int y, char * s )
 {
 	int w,h,aw;
 	gr_get_string_size(s, &w, &h, &aw  );
@@ -826,7 +826,7 @@ void update_cursor( newmenu_item *item)
 
 }
 
-void nm_string_inputbox( bkg *b, int w, int x, int y, char * text, int current )
+void nm_string_inputbox( bkg3 *b, int w, int x, int y, char * text, int current )
 {
 	int w1,h1,aw;
 
@@ -846,7 +846,7 @@ void nm_string_inputbox( bkg *b, int w, int x, int y, char * text, int current )
 	}
 }
 
-void draw_item( bkg * b, newmenu_item *item, int is_current )
+void draw_item( bkg3 * b, newmenu_item *item, int is_current )
 {
 	if (is_current)
 		grd_curcanv->cv_font = CURRENT_FONT;
@@ -976,7 +976,7 @@ int newmenu_do3_real( char * title, char * subtitle, int nitems, newmenu_item * 
 	grs_font * save_font;
 	int string_width, string_height, average_width;
 	int ty;
-	bkg bg;
+	bkg3 bg;
 	int all_text=0;		//set true if all text items
 	int time_stopped=0;
 
@@ -1456,7 +1456,7 @@ int newmenu_do3_real( char * title, char * subtitle, int nitems, newmenu_item * 
 							item[choice].value = 0;
 						}
 
-						allowed = char_allowed(ascii);
+						allowed = char_allowed((char) ascii);
 						if (!allowed && ascii==' ' && char_allowed('_')) {
 							ascii = '_';
 							allowed=1;

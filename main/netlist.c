@@ -52,12 +52,12 @@ void network_send_game_list_request();
 // bitblt.c
 void gr_bm_bitblt(int w, int h, int dx, int dy, int sx, int sy, grs_bitmap * src, grs_bitmap * dest);
 
-typedef struct bkg {
+typedef struct bkg2 {
   grs_canvas * menu_canvas;
   grs_bitmap * saved;			// The background under the menu.
   grs_bitmap * background;
   int background_is_sub;
-} bkg;
+} bkg2;
 
 extern grs_bitmap nm_background;
 
@@ -142,11 +142,11 @@ char *network_menu_title[LINE_ITEMS] = { "", "", "Game", "Mode", "#Plrs", "Missi
 
 static int selected_game;
 
-static void draw_back(bkg *b, int x, int y, int w, int h) {
+static void draw_back(bkg2 *b, int x, int y, int w, int h) {
        gr_bm_bitblt(b->background->bm_w-15, h, 5, y, 5, y, b->background, &(grd_curcanv->cv_bitmap) );
 }
 
-static void draw_item(bkg *b, struct line_item *li, int is_current) {
+static void draw_item(bkg2 *b, struct line_item *li, int is_current) {
 	int i, w, h, aw, max_w, pad_w, y;
 	char str[MAX_TEXT_LEN], *p;
 
@@ -174,7 +174,7 @@ static void draw_item(bkg *b, struct line_item *li, int is_current) {
 	}
 }
 
-static void draw_list(bkg *bg,
+static void draw_list(bkg2 *bg,
  struct line_item lis[MAX_ACTIVE_NETGAMES][LINE_ITEMS]) {
 	int i;
 	update_items(lis);
@@ -182,7 +182,7 @@ static void draw_list(bkg *bg,
 		draw_item(bg, lis[i], i == selected_game);
 	}
 }
-static void init_background(bkg *bg, int x, int y, int w, int h) {
+static void init_background(bkg2 *bg, int x, int y, int w, int h) {
 	bg->menu_canvas = gr_create_sub_canvas( &grd_curscreen->sc_canvas, x, y, w, h );
 	gr_set_current_canvas( bg->menu_canvas );
 
@@ -203,7 +203,7 @@ static void init_background(bkg *bg, int x, int y, int w, int h) {
 	gr_set_current_canvas( bg->menu_canvas );
 }
 
-static void done_background(bkg *bg) {
+static void done_background(bkg2 *bg) {
 	gr_set_current_canvas(bg->menu_canvas);
 	gr_bitmap(0, 0, bg->saved); 	
 	gr_free_bitmap(bg->saved);
@@ -484,7 +484,7 @@ void change_missiondir()
 //added/changed on 9/17/98 by Victor Rachels for netgame info screen redraw
 //this was mostly a bunch of random moves and copies from the main function
 //if you can figure this out more elegantly, go for it.
-void netlist_redraw(bkg bg,
+void netlist_redraw(bkg2 bg,
                     char menu_text[MAX_ACTIVE_NETGAMES][LINE_ITEMS][MAX_TEXT_LEN],
                     struct line_item lis[MAX_ACTIVE_NETGAMES][LINE_ITEMS])
 {
@@ -535,7 +535,7 @@ int network_join_game_menu() {
 	int old_select, old_socket, done, last_num_games;
 	grs_canvas * save_canvas;
 	grs_font * save_font;
-	bkg bg;
+	bkg2 bg;
 	fix t, req_timer = 0;
 	
 	selected_game = 0;
@@ -575,7 +575,7 @@ int network_join_game_menu() {
 					"(PgUp/PgDn to change)", Network_socket);
 			if (old_socket != -32768) { /* changed by user? */
 				network_listen();
-				ipx_change_default_socket( IPX_DEFAULT_SOCKET + Network_socket );
+				ipx_change_default_socket( (ushort) (IPX_DEFAULT_SOCKET + Network_socket) );
 				num_active_games = 0;
 			}
 			req_timer -= F1_0 * 5; /* force send request */

@@ -689,7 +689,7 @@ void do_endlevel_frame()
 
 				outside_mine = 1;
 
-				tobj = object_create_explosion(exit_segnum,&mine_side_exit_point,i2f(50),VCLIP_BIG_PLAYER_EXPLOSION);
+				tobj = object_create_explosion((short) exit_segnum,&mine_side_exit_point,i2f(50),VCLIP_BIG_PLAYER_EXPLOSION);
 
 				if (tobj) {
 					external_explosion = *tobj;
@@ -703,7 +703,7 @@ void do_endlevel_frame()
 					ext_expl_playing = 1;
 				}
 	
-				digi_link_sound_to_pos( SOUND_BIG_ENDLEVEL_EXPLOSION, exit_segnum, 0, &mine_side_exit_point, 0, i2f(3)/4 );
+				digi_link_sound_to_pos( SOUND_BIG_ENDLEVEL_EXPLOSION, (short) exit_segnum, 0, &mine_side_exit_point, 0, i2f(3)/4 );
 			}
 		}
 
@@ -721,9 +721,9 @@ void do_endlevel_frame()
 			segnum = find_point_seg(&tpnt,ConsoleObject->segnum);
 
 			if (segnum != -1) {
-				expl = object_create_explosion(segnum,&tpnt,i2f(20),VCLIP_BIG_PLAYER_EXPLOSION);
+				expl = object_create_explosion((short) segnum,&tpnt,i2f(20),VCLIP_BIG_PLAYER_EXPLOSION);
 				if (d_rand()<10000 || ++sound_count==7) {		//pseudo-random
-					digi_link_sound_to_pos( SOUND_TUNNEL_EXPLOSION, segnum, 0, &tpnt, 0, F1_0 );
+					digi_link_sound_to_pos( SOUND_TUNNEL_EXPLOSION, (short) segnum, 0, &tpnt, 0, F1_0 );
 					sound_count=0;
 				}
 			}
@@ -764,7 +764,7 @@ void do_endlevel_frame()
 			find_vector_intersection(&fq,&hit_data);
 
 			if (hit_data.hit_type==HIT_WALL && hit_data.hit_seg!=-1)
-				object_create_explosion(hit_data.hit_seg,&hit_data.hit_pnt,i2f(3)+d_rand()*6,VCLIP_SMALL_EXPLOSION);
+				object_create_explosion((short) hit_data.hit_seg,&hit_data.hit_pnt,i2f(3)+d_rand()*6,VCLIP_SMALL_EXPLOSION);
 
 			explosion_wait2 = (0xa00 + d_rand()/8)/2;
 		}
@@ -1588,7 +1588,7 @@ try_again:
 	while (cfgets(line,LINE_LEN,ifile)) {
 
 		if (have_binary) {
-			for (i = 0; i < strlen(line) - 1; i++) {
+			for (i = 0; i < (int) strlen(line) - 1; i++) {
 				encode_rotate_left(&(line[i]));
 				line[i] = line[i] ^ BITMAP_TBL_XOR;
 				encode_rotate_left(&(line[i]));

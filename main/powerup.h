@@ -248,9 +248,9 @@ extern void count_powerup_start_level();
 
 extern int powerup_start_level[MAX_POWERUP_TYPES];
 
-extern void pow_count_level();
+extern void pow_count_level(int *pow_level);
 
-extern void pow_add_random();
+extern void pow_add_random(object *obj);
 
 // add pow_count to powerup_start_level
 extern void pow_add_level_pow_count(int *pow_count);

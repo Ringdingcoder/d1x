@@ -427,7 +427,7 @@ typedef struct _grs_screen {     // This is a video screen
 // grd_curscreen to point to it.  grs_curcanv points to this screen's
 // canvas.  Saves the current VGA state and screen mode.
 
-int gr_init();
+int gr_init(int mode);
 void gr_set_bitmap_data (grs_bitmap *bm, unsigned char *data);
 
 void gr_enable_default_palette_loading();
@@ -584,7 +584,7 @@ int gr_uaaline(fix x0,fix y0,fix x1,fix y1);
 // Draw the bitmap into the current canvas at the specified location.
 void gr_bitmap(int x,int y,grs_bitmap *bm);
 void gr_ubitmap(int x,int y,grs_bitmap *bm);
-inline void scale_line(byte *in, byte *out, int ilen, int olen);
+void scale_line(byte *in, byte *out, int ilen, int olen);
 void gr_bitmap_scale_to(grs_bitmap *src, grs_bitmap *dst);
 void show_fullscr(grs_bitmap *bm);
 

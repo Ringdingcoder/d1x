@@ -5,7 +5,7 @@
 
 #ifdef __WINDOWS__
 
-#include <windows.h>
+#include "winhdr.h"
 
 void d_delay (int ms) {
  Sleep(ms);

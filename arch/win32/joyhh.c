@@ -38,8 +38,7 @@ Later modified by Owen Evans to work with D1X (3/7/99)
 
 #define _WIN32_OS		//HH
 
-#include <windows.h>	//HH
-#include <mmsystem.h>	//HH
+#include "winhdr.h"
 #include <stdlib.h>
 #include <stdio.h>
 

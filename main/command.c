@@ -67,7 +67,7 @@ int Command_parse(char *command)
               hud_message(MSGC_GAME_FEEDBACK, "now using alternate vulcanfire");
               use_alt_vulcanfire=1;
               Netgame.flags |= NETFLAG_ENABLE_ALT_VULCAN;
-              reconfig_send_gameinfo(100,1);
+              reconfig_send_gameinfo();
             }
            else
             hud_message(MSGC_GAME_FEEDBACK, "already using alternate vulcanfire");

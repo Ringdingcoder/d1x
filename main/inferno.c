@@ -761,7 +761,7 @@ static char *__reference[2]={copyright,(char *)__reference};
 #endif
 //added on 1/11/99 by DPH for win32
 #ifdef __WINDOWS__
-#include <windows.h>
+#include "winhdr.h"
 #endif
 //end this section addition - dph
 //added on 12/14/98 by Matt Mueller - override res in d1x.ini with command line args
@@ -1118,6 +1118,12 @@ int start_net_immediately = 0;
 int start_with_mission = 0;
 char *start_with_mission_name;
 //end this section addition
+
+int main(int argc,char **argv);
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+	main(__argc, __argv);
+}
 
 int main(int argc,char **argv)
 //end this section addition - dph

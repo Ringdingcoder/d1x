@@ -1,7 +1,6 @@
 #ifndef _HMPFILE_H
 #define _HMPFILE_H
-#include <windows.h>
-#include <mmsystem.h>
+#include "winhdr.h"
 
 #define HMP_TRACKS 32
 #define HMP_BUFFERS 4

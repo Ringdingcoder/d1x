@@ -571,7 +571,7 @@ void apply_force_damage(object *obj,fix force,object *other_obj)
 
 		case OBJ_CNTRLCEN:
 
-			apply_damage_to_controlcen(obj,damage, other_obj-Objects);
+			apply_damage_to_controlcen(obj,damage, (short) (other_obj-Objects));
 			break;
 
 		case OBJ_WEAPON:
@@ -817,14 +817,14 @@ int check_effect_blowup(segment *seg,int side,vms_vector *pnt)
 					//mprintf((0,"  HIT!\n"));
 
 					if (Newdemo_state == ND_STATE_RECORDING)
-						newdemo_record_effect_blowup( seg-Segments, side, pnt);
+						newdemo_record_effect_blowup( (short) (seg-Segments), side, pnt);
 
 					vc = Effects[ec].dest_vclip;
 
-					object_create_explosion( seg-Segments, pnt, Effects[ec].dest_size, vc );
+					object_create_explosion( (short) (seg-Segments), pnt, Effects[ec].dest_size, vc );
 
 					if ((sound_num = Vclip[vc].sound_num) != -1)
-			  			digi_link_sound_to_pos( sound_num, seg-Segments, 0, pnt,  0, F1_0 );
+			  			digi_link_sound_to_pos( sound_num, (short) (seg-Segments), 0, pnt,  0, F1_0 );
 
 					if ((sound_num=Effects[ec].sound_num)!=-1)		//kill sound
 						digi_kill_sound_linked_to_segment(seg-Segments,side,sound_num);

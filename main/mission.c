@@ -236,7 +236,7 @@ int build_mission_list(int anarchy_mode)
 
 	if ( !d_glob(missionspec, &glob_ret) && glob_ret.gl_pathc) {
 		int j;
-		for (j = 0; j < glob_ret.gl_pathc && (count < MAX_MISSIONS); j++) {
+		for (j = 0; j < (int) glob_ret.gl_pathc && (count < MAX_MISSIONS); j++) {
 			FILE *mfile;
 			int is_anarchy;
 			char temp[13], *t;

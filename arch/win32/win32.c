@@ -1,5 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "winhdr.h"
 #include <stdio.h>
 #include "gr.h"
 #include "grdef.h"
@@ -82,6 +81,7 @@ int gr_check_mode(u_int32_t mode)
 	return 11;
 }
 
+#ifdef D1XD3D
 int gr_set_mode(u_int32_t mode)
 {
 	unsigned int w,h,t,r;
@@ -124,6 +124,7 @@ int gr_set_mode(u_int32_t mode)
 	
 	return 0;
 }
+#endif
 
 int gr_init(int mode)
 {
@@ -172,6 +173,7 @@ void gr_upixel( int x, int y )
 #endif
 }
 
+#ifdef D1XD3D
 void gr_bm_upixel( grs_bitmap * bm, int x, int y, unsigned char color )
 {
 	switch (bm->bm_type)
@@ -196,6 +198,7 @@ void gr_bm_upixel( grs_bitmap * bm, int x, int y, unsigned char color )
 		break;
 	}
 }
+#endif
 
 RGBQUAD w32lastrgb[256];
 

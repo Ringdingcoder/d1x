@@ -545,7 +545,7 @@ object * create_morph_robot( segment *segp, vms_vector *object_pos, int object_i
 	Players[Player_num].num_robots_level++;
 	Players[Player_num].num_robots_total++;
 
-	objnum = obj_create(OBJ_ROBOT, object_id, segp-Segments, object_pos,
+	objnum = obj_create(OBJ_ROBOT, (ubyte) object_id, segp-Segments, object_pos,
 				&vmd_identity_matrix, Polygon_models[Robot_info[object_id].model_num].rad,
 				CT_AI, MT_PHYSICS, RT_POLYOBJ);
 
@@ -714,13 +714,13 @@ void robotmaker_proc( FuelCenter * robotcen )
 
 			compute_segment_center(&cur_object_loc, &Segments[robotcen->segnum]);
 			// HACK!!! The 10 under here should be something equal to the 1/2 the size of the segment.
-			obj = object_create_explosion(robotcen->segnum, &cur_object_loc, i2f(10), VCLIP_MORPHING_ROBOT );
+			obj = object_create_explosion((short) robotcen->segnum, &cur_object_loc, i2f(10), VCLIP_MORPHING_ROBOT );
 
 			if (obj)
 				extract_orient_from_segment(&obj->orient,&Segments[robotcen->segnum]);
 
 			if ( Vclip[VCLIP_MORPHING_ROBOT].sound_num > -1 )		{
-				digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, robotcen->segnum, 0, &cur_object_loc, 0, F1_0 );
+				digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, (short) robotcen->segnum, 0, &cur_object_loc, 0, F1_0 );
 			}
 			robotcen->Flag	= 1;
 			robotcen->Timer = 0;
@@ -838,7 +838,7 @@ void controlcen_proc( FuelCenter * controlcen )
 		old_time = old_time / (fl2f(0.65));
 		if (size != old_time && (controlcen->Timer > (5*F1_0) ))		{			// Every 2 seconds!
 			//@@object_create_explosion( controlcen->segnum, &vp, size*10, FrameTime & 7);
-			object_create_explosion( controlcen->segnum, &vp, size*10, VCLIP_SMALL_EXPLOSION);
+			object_create_explosion( (short) controlcen->segnum, &vp, size*10, VCLIP_SMALL_EXPLOSION);
 			digi_play_sample( SOUND_CONTROL_CENTER_WARNING_SIREN, F3_0 );
 		}
 	}  else {

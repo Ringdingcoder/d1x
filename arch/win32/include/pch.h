@@ -14,7 +14,7 @@ public:
 #endif
 
 
-#include <windows.h>
+#include "winhdr.h"
 #include <windowsx.h>
 #include <ddraw.h>
 #include <dinput.h>
@@ -44,4 +44,4 @@ extern CComModule _Module;
 
 #define ASSERT(x) _ASSERTE(x)
 
-#pragma warning (disable: 4786)
+//#pragma warning (disable: 4786)

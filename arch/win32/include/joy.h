@@ -50,7 +50,7 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 // joystick was detected, 1 if everything is ok.
 // joy_init() is called.
 
-extern int joy_init();
+extern int joy_init(int joyid);
 extern void joy_close();
 
 extern char joy_installed;

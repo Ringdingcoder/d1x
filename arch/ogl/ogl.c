@@ -1,6 +1,6 @@
 //#include <stdio.h>
 #ifdef __WINDOWS__
-#include <windows.h>
+#include "winhdr.h"
 #include <stddef.h>
 #endif
 #include <GL/gl.h>
@@ -10,7 +10,7 @@
 #include "ogl_init.h"
 #include "3d.h"
 #include "piggy.h"
-#include "../../3d/globvars.h"
+#include "../3d/globvars.h"
 #include "error.h"
 #include "texmap.h"
 #include "palette.h"

@@ -297,7 +297,7 @@ void credits_show()
 			if (cfgets( buffer[buffer_line], 80, file ))	{
 				char *p;
 				if (have_bin_file) {				// is this a binary tbl file
-					for (i = 0; i < strlen(buffer[buffer_line]) - 1; i++) {
+					for (i = 0; i < (int) strlen(buffer[buffer_line]) - 1; i++) {
 						encode_rotate_left(&(buffer[buffer_line][i]));
 						buffer[buffer_line][i] ^= BITMAP_TBL_XOR;
 						encode_rotate_left(&(buffer[buffer_line][i]));

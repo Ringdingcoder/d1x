@@ -13,8 +13,7 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 
 // File nearly completely rewritten by dph-man
 
-#include <windows.h>
-#include <mmsystem.h> // DPH: We use timeGetTime from here...
+#include "winhdr.h"
 
 #include "types.h"
 #include "maths.h"

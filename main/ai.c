@@ -2160,7 +2160,7 @@ int create_gated_robot( int segnum, int object_id)
 		return 0;
 	}
 
-	objnum = obj_create(OBJ_ROBOT, object_id, segnum, &object_pos, &vmd_identity_matrix, objsize, CT_AI, MT_PHYSICS, RT_POLYOBJ);
+	objnum = obj_create(OBJ_ROBOT, (ubyte) object_id, segnum, &object_pos, &vmd_identity_matrix, objsize, CT_AI, MT_PHYSICS, RT_POLYOBJ);
 
 	if ( objnum < 0 ) {
 		// mprintf((1, "Can't get object to gate in robot.  Not gating in.\n"));
@@ -2197,8 +2197,8 @@ int create_gated_robot( int segnum, int object_id)
 
 	init_ai_object(objp-Objects, default_behavior, -1 );		//	Note, -1 = segment this robot goes to to hide, should probably be something useful
 
-	object_create_explosion(segnum, &object_pos, i2f(10), VCLIP_MORPHING_ROBOT );
-	digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, segnum, 0, &object_pos, 0 , F1_0);
+	object_create_explosion((short) segnum, &object_pos, i2f(10), VCLIP_MORPHING_ROBOT );
+	digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, (short) segnum, 0, &object_pos, 0 , F1_0);
 	morph_start(objp);
 
 	Last_gate_time = GameTime;
@@ -2399,9 +2399,9 @@ void teleport_boss(object *objp)
 	vm_vec_sub(&boss_dir, &Objects[Players[Player_num].objnum].pos, &objp->pos);
 	vm_vector_2_matrix(&objp->orient, &boss_dir, NULL, NULL);
 
-	digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, rand_segnum, 0, &objp->pos, 0 , F1_0);
+	digi_link_sound_to_pos( Vclip[VCLIP_MORPHING_ROBOT].sound_num, (short) rand_segnum, 0, &objp->pos, 0 , F1_0);
 	digi_kill_sound_linked_to_object( objp-Objects);
-	digi_link_sound_to_object2( SOUND_BOSS_SHARE_SEE, objp-Objects, 1, F1_0, F1_0*512 );	//	F1_0*512 means play twice as loud
+	digi_link_sound_to_object2( SOUND_BOSS_SHARE_SEE, (short) (objp-Objects), 1, F1_0, F1_0*512 );	//	F1_0*512 means play twice as loud
 	#ifndef NDEBUG
 	mprintf((0, "Boss teleported to segment %i\n", rand_segnum));
 	#endif
@@ -2440,7 +2440,7 @@ void do_boss_dying_frame(object *objp)
 		if (!Boss_dying_sound_playing) {
 			mprintf((0, "Starting boss death sound!\n"));
 			Boss_dying_sound_playing = 1;
-			digi_link_sound_to_object2( SOUND_BOSS_SHARE_DIE, objp-Objects, 0, F1_0*4, F1_0*1024 );	//	F1_0*512 means play twice as loud
+			digi_link_sound_to_object2( SOUND_BOSS_SHARE_DIE, (short) (objp-Objects), 0, F1_0*4, F1_0*1024 );	//	F1_0*512 means play twice as loud
                 } else if (d_rand() < FrameTime*16)
                         create_small_fireball_on_object(objp, (F1_0 + d_rand()) * 8, 0);
         } else if (d_rand() < FrameTime*8)
@@ -2449,7 +2449,7 @@ void do_boss_dying_frame(object *objp)
 	if (Boss_dying_start_time + BOSS_DEATH_DURATION < GameTime) {
 		do_controlcen_destroyed_stuff(NULL);
 		explode_object(objp, F1_0/4);
-		digi_link_sound_to_object2(SOUND_BADASS_EXPLOSION, objp-Objects, 0, F2_0, F1_0*512);
+		digi_link_sound_to_object2(SOUND_BADASS_EXPLOSION, (short) (objp-Objects), 0, F2_0, F1_0*512);
 	}
 }
 

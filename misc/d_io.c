@@ -11,7 +11,7 @@
 //end addition -MM
 
 #ifdef __WINDOWS__
-#include <windows.h>
+#include "winhdr.h"
 #define lseek(a,b,c) _lseek(a,b,c)
 #endif
 

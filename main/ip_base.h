@@ -5,9 +5,9 @@
 #ifndef ___IP_BASE_H
 #define ___IP_BASE_H
 
-#include <map.h>
-#include <list.h>
-#include <algo.h>
+#include <map>
+#include <list>
+#include <algorithm>
 extern "C" {
 #include "ip_basec.h"
 #include "fix.h"

@@ -1,8 +1,7 @@
 //opengl platform specific functions for WGL - added by Peter Hawkins
 //fullscreen example code courtesy of Jeff Slutter
 //everything merged together and cleaned up by Matt Mueller (with some win32 help from Nirvana)
-#include <windows.h>
-#include <mmsystem.h>
+#include "winhdr.h"
 #include "ogl_init.h"
 #include "vers_id.h"
 #include "error.h"

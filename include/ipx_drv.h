@@ -12,6 +12,7 @@
 #include "types.h"
 
 #ifdef __WINDOWS__
+#include "winhdr.h"
 #include <winsock.h>
 #else
 #include <netinet/in.h> /* for htons & co. */

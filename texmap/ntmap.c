@@ -168,7 +168,7 @@ static char rcsid[] = "$Id$";
 #include "rle.h"
 #include "scanline.h"
 
-#include "../main/textures.h"
+#include "textures.h"
 
 #ifdef EDITOR
 #define EDITOR_TMAP 1       //if in, include extra stuff

@@ -4,15 +4,16 @@
 #include <stdio.h>
 #include <string.h>
 #ifdef __WINDOWS__
-#include <windows.h>
+#include "winhdr.h"
 #endif
 
 //#include <GL/gl.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <io.h>
 
 #include "hudmsg.h"
 #include "game.h"
@@ -623,7 +624,7 @@ void gr_palette_read(ubyte * pal)
 void write_bmp(char *savename,int w,int h,unsigned char *buf){
 	int f;
 #ifdef __WINDOWS__
-	f=open(savename,O_CREAT|O_EXCL|O_WRONLY,S_IRUSR|S_IWUSR);
+	f=open(savename,O_CREAT|O_EXCL|O_WRONLY,S_IREAD|S_IWRITE);
 #else
 	f=open(savename,O_CREAT|O_EXCL|O_WRONLY,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
 #endif

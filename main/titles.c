@@ -901,7 +901,7 @@ int show_briefing_message(int screen_num, char *message)
 //Begin D1X addition
 			} else if (ch == '$' || ch == ';') {         // Print a $/;
                                 prev_ch = ch;
-                                Briefing_text_x += show_char_delay(ch, delay_count, robot_num, flashing_cursor);
+                                Briefing_text_x += show_char_delay((char) ch, delay_count, robot_num, flashing_cursor);
 
 //End D1X addition
 			}
@@ -931,7 +931,7 @@ int show_briefing_message(int screen_num, char *message)
 			}
 		} else {
 			prev_ch = ch;
-			Briefing_text_x += show_char_delay(ch, delay_count, robot_num, flashing_cursor);
+			Briefing_text_x += show_char_delay((char) ch, delay_count, robot_num, flashing_cursor);
 		}
 
                 //added/changed on 9/13/98 by adb to speed up briefings after pressing a key with SDL
@@ -1261,7 +1261,7 @@ void do_shareware_end_game(void)
 		MALLOC(Briefing_text, char, 4); // Dummy
 //		sprintf(Briefing_text, "$S1\n$C1\n\n%s!\n\n%s has won with %d kills.\n\n$S2\n", TXT_SHAREWARE_DONE,Players[winner].callsign, Players[winner].net_kills_total);
 
-		kmatrix_view();
+		kmatrix_view(0);
 		return;
 	}
 	else 

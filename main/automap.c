@@ -1020,14 +1020,14 @@ void add_segment_edges(segment *seg)
 				color = BM_XRGB( 0, 0, 25 );
 
 			get_side_verts(vertex_list,segnum,sn);
-			add_one_edge( vertex_list[0], vertex_list[1], color, sn, segnum, hidden_flag, 0, no_fade );
-			add_one_edge( vertex_list[1], vertex_list[2], color, sn, segnum, hidden_flag, 0, no_fade );
-			add_one_edge( vertex_list[2], vertex_list[3], color, sn, segnum, hidden_flag, 0, no_fade );
-			add_one_edge( vertex_list[3], vertex_list[0], color, sn, segnum, hidden_flag, 0, no_fade );
+			add_one_edge( vertex_list[0], vertex_list[1], color, (ubyte) sn, (short) segnum, (int) hidden_flag, 0, (int) no_fade );
+			add_one_edge( vertex_list[1], vertex_list[2], color, (ubyte) sn, (short) segnum, hidden_flag, 0, no_fade );
+			add_one_edge( vertex_list[2], vertex_list[3], color, (ubyte) sn, (short) segnum, hidden_flag, 0, no_fade );
+			add_one_edge( vertex_list[3], vertex_list[0], color, (ubyte) sn, (short) segnum, hidden_flag, 0, no_fade );
 
 			if ( is_grate )	{
-				add_one_edge( vertex_list[0], vertex_list[2], color, sn, segnum, hidden_flag, 1, no_fade );
-				add_one_edge( vertex_list[1], vertex_list[3], color, sn, segnum, hidden_flag, 1, no_fade );
+				add_one_edge( vertex_list[0], vertex_list[2], color, (ubyte) sn, (short) segnum, hidden_flag, 1, no_fade );
+				add_one_edge( vertex_list[1], vertex_list[3], color, (ubyte) sn, (short) segnum, hidden_flag, 1, no_fade );
 			}
 		}
 	}

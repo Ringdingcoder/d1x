@@ -3,7 +3,7 @@
 #define _OGL_INIT_H_
 
 #ifdef __WINDOWS__
-#include <windows.h>
+#include "winhdr.h"
 #include <stddef.h>
 #endif
 

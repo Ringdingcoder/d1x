@@ -94,11 +94,9 @@ COPYRIGHT 1993-1998 PARALLAX SOFTWARE CORPORATION.  ALL RIGHTS RESERVED.
 #define _WIN32_KEY_H
 
 //changed key defines to use DIK_* - 2000/01/14 Matt Mueller.  -heh, a bunch were wrong.
-#define byte w32_byte
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "winhdr.h"
+#define DIRECTINPUT_VERSION 0x0700
 #include <dinput.h> // For DIK_*
-#undef byte
 
 #define ARCH_KEY_0           DIK_0
 #define ARCH_KEY_1           DIK_1

@@ -10,7 +10,7 @@
 #endif
 
 #if defined(WIN32)
-#include <windows.h>
+#include "winhdr.h"
 #define OGLFUNCCALL	__stdcall
 #else
 #define OGLFUNCCALL

@@ -159,7 +159,7 @@ object *object_create_explosion_sub(object *objp, short segnum, vms_vector * pos
 	int objnum;
 	object *obj;
 
-	objnum = obj_create( OBJ_FIREBALL,vclip_type,segnum,position,&vmd_identity_matrix,size,
+	objnum = obj_create( OBJ_FIREBALL,(ubyte) vclip_type,segnum,position,&vmd_identity_matrix,size,
 					CT_EXPLOSION,MT_NONE,RT_FIREBALL);
 
 	if (objnum < 0 ) {
@@ -227,7 +227,7 @@ object *object_create_explosion_sub(object *objp, short segnum, vms_vector * pos
 								break;
 							case OBJ_CNTRLCEN:
 								if ( obj0p->shields >= 0 ) {
-									apply_damage_to_controlcen(obj0p, damage, parent );
+									apply_damage_to_controlcen(obj0p, damage, (short) parent );
 								}
 								break;
 							case OBJ_PLAYER:	{
@@ -301,7 +301,7 @@ object *explode_badass_weapon(object *obj)
 
 	Assert(wi->damage_radius);
 
-	digi_link_sound_to_object(SOUND_BADASS_EXPLOSION, obj-Objects, 0, F1_0);
+	digi_link_sound_to_object(SOUND_BADASS_EXPLOSION, (short) (obj-Objects), 0, F1_0);
 
 	return object_create_badass_explosion( obj, obj->segnum, &obj->pos, 
 					wi->impact_size, 
@@ -323,7 +323,7 @@ object *explode_badass_player(object *objp)
 					F1_0*50, F1_0*40, F1_0*150, 
 					objp-Objects);
 	if (rval)
-		digi_link_sound_to_object(SOUND_BADASS_EXPLOSION, rval-Objects, 0, F1_0);
+		digi_link_sound_to_object(SOUND_BADASS_EXPLOSION, (short) (rval-Objects), 0, F1_0);
 	return (rval);
 }
 
@@ -576,7 +576,7 @@ void maybe_drop_net_powerup(int powerup_type)
 		vm_vec_zero(&Objects[objnum].mtype.phys_info.velocity);
 		obj_relink(objnum, segnum);
 
-		object_create_explosion(segnum, &new_pos, i2f(5), VCLIP_POWERUP_DISAPPEARANCE );
+		object_create_explosion((short) segnum, &new_pos, i2f(5), VCLIP_POWERUP_DISAPPEARANCE );
 //		mprintf(0, "Creating net powerup in segment %i at %7.3f %7.3f %7.3f\n", segnum, f2fl(new_pos.x), f2fl(new_pos.y), f2fl(new_pos.z));
 	}
 }
@@ -1212,7 +1212,7 @@ void explode_wall(int segnum,int sidenum)
 
 	//play one long sound for whole door wall explosion
 	compute_center_point_on_side(&pos,&Segments[segnum],sidenum);
-	digi_link_sound_to_pos( SOUND_EXPLODING_WALL,segnum, sidenum, &pos, 0, F1_0 );
+	digi_link_sound_to_pos( SOUND_EXPLODING_WALL,(short) segnum, (short) sidenum, &pos, 0, F1_0 );
 
 }
 
@@ -1296,9 +1296,9 @@ void do_exploding_wall_frame()
 				#endif
 
 				if (e & 3)		//3 of 4 are normal
-					object_create_explosion(expl_wall_list[i].segnum,&pos,size,VCLIP_SMALL_EXPLOSION);
+					object_create_explosion((short) expl_wall_list[i].segnum,&pos,size,VCLIP_SMALL_EXPLOSION);
 				else
-					object_create_badass_explosion( NULL, expl_wall_list[i].segnum, &pos, 
+					object_create_badass_explosion( NULL, (short) expl_wall_list[i].segnum, &pos, 
 					size, 
 					VCLIP_SMALL_EXPLOSION,
 					i2f(4),		// damage strength

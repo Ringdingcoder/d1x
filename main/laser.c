@@ -251,7 +251,7 @@ int Laser_create_new( vms_vector * direction, vms_vector * position, int segnum,
 	// Add to object list 
 	Assert(laser_radius != -1);
 	Assert(rtype != -1);
-	objnum = obj_create( OBJ_WEAPON, weapon_type, segnum, position, NULL, laser_radius, CT_WEAPON, MT_PHYSICS, rtype );
+	objnum = obj_create( OBJ_WEAPON, (ubyte) weapon_type, segnum, position, NULL, laser_radius, CT_WEAPON, MT_PHYSICS, (ubyte) rtype );
 
 	if ( objnum < 0 ) 	{
 		mprintf((1, "Can't create laser - Out of objects!\n" ));

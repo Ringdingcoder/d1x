@@ -806,7 +806,7 @@ void create_small_fireball_on_object(object *objp, fix size_scale, int sound_fla
 	segnum = find_point_seg(&pos, objp->segnum);
 	if (segnum != -1) {
 		object *expl_obj;
-		expl_obj = object_create_explosion(segnum, &pos, size, VCLIP_SMALL_EXPLOSION);
+		expl_obj = object_create_explosion((short) segnum, &pos, size, VCLIP_SMALL_EXPLOSION);
 		if (!expl_obj)
 			return;
 		obj_attach(objp,expl_obj);
@@ -815,7 +815,7 @@ void create_small_fireball_on_object(object *objp, fix size_scale, int sound_fla
 			if (objp->type == OBJ_ROBOT)
 				vol *= 2;
 			else if (sound_flag)
-				digi_link_sound_to_object(SOUND_EXPLODING_WALL, objp-Objects, 0, vol);
+				digi_link_sound_to_object(SOUND_EXPLODING_WALL, (short) (objp-Objects), 0, vol);
 		}
 	}
 }
@@ -839,7 +839,7 @@ void create_vclip_on_object(object *objp, fix size_scale, int vclip_num)
 	segnum = find_point_seg(&pos, objp->segnum);
 	if (segnum != -1) {
 		object *expl_obj;
-		expl_obj = object_create_explosion(segnum, &pos, size, vclip_num);
+		expl_obj = object_create_explosion((short) segnum, &pos, size, vclip_num);
 		if (!expl_obj)
 			return;
 
@@ -2062,7 +2062,7 @@ void object_move_one( object * obj )
 			for (i=0;i<n_phys_segs-1;i++) {
 				connect_side = find_connect_side(&Segments[phys_seglist[i+1]], &Segments[phys_seglist[i]]);
 				if (connect_side != -1)
-					check_trigger(&Segments[phys_seglist[i]], connect_side, obj-Objects);
+					check_trigger(&Segments[phys_seglist[i]], (short) connect_side, (short) (obj-Objects));
 					//check_trigger(&Segments[previous_segment], connect_side, obj-Objects);
 				#ifndef NDEBUG
 				else {	// segments are not directly connected, so do binary subdivision until you find connected segments.

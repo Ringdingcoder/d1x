@@ -1,15 +1,12 @@
 #define DIGI_SOUND
 #define MIDI_SOUND
 
+#include "winhdr.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define byte w32_byte
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <mmsystem.h>
 #include <dsound.h>
-#undef byte
 
 #include <math.h>
 
@@ -159,7 +156,7 @@ int digi_init()
 	
 	 memset(&dsbd, 0, sizeof(dsbd));
 	 dsbd.dwSize = sizeof(dsbd);
-	 dsbd.dwFlags = DSBCAPS_CTRLDEFAULT | DSBCAPS_GETCURRENTPOSITION2;
+	 dsbd.dwFlags = (DSBCAPS_CTRLFREQUENCY|DSBCAPS_CTRLPAN|DSBCAPS_CTRLVOLUME) | DSBCAPS_GETCURRENTPOSITION2;
 	 dsbd.dwBufferBytes = 8192;
 	 dsbd.dwReserved=0;
 	 dsbd.lpwfxFormat = &waveformat;
@@ -212,7 +209,7 @@ int D1vol2DSvol(fix d1v){
 		 return -10000;
 	 else
 //		 return log2(f2fl(d1v))*1000;//no log2? hm.
-		 return log(f2fl(d1v))/log(2)*1000.0;
+		 return (int) (log(f2fl(d1v))/log(2)*1000.0);
 }
 
 int digi_start_sound(int soundnum, fix volume, fix pan)
@@ -271,7 +268,7 @@ TryNextChannel:
 
   memset(&dsbd, 0, sizeof(dsbd));
   dsbd.dwSize = sizeof(dsbd);
-  dsbd.dwFlags = DSBCAPS_CTRLDEFAULT | DSBCAPS_GETCURRENTPOSITION2;
+  dsbd.dwFlags = (DSBCAPS_CTRLFREQUENCY|DSBCAPS_CTRLPAN|DSBCAPS_CTRLVOLUME) | DSBCAPS_GETCURRENTPOSITION2;
   dsbd.dwReserved=0;
   dsbd.dwBufferBytes = SoundSlots[slot].length;
   dsbd.lpwfxFormat = &waveformat;
@@ -288,7 +285,7 @@ TryNextChannel:
     DWORD len1, len2;
      IDirectSoundBuffer_Lock(SoundSlots[slot].lpsb, 0, Sounddat(soundnum)->length,
                              (void **)&ptr1, &len1, (void **)&ptr2, &len2, 0);
-     memcpy(ptr1,Sounddat(soundnum)->data, MIN(len1, Sounddat(soundnum)->length));
+     memcpy(ptr1,Sounddat(soundnum)->data, MIN((int) len1, Sounddat(soundnum)->length));
      IDirectSoundBuffer_Unlock(SoundSlots[slot].lpsb, ptr1, len1, ptr2, len2);
    }
 
@@ -351,7 +348,7 @@ int digi_start_sound_object(int obj)
 
   memset(&dsbd, 0, sizeof(dsbd));
   dsbd.dwSize = sizeof(dsbd);
-  dsbd.dwFlags = DSBCAPS_CTRLDEFAULT | DSBCAPS_GETCURRENTPOSITION2;
+  dsbd.dwFlags = (DSBCAPS_CTRLFREQUENCY|DSBCAPS_CTRLPAN|DSBCAPS_CTRLVOLUME) | DSBCAPS_GETCURRENTPOSITION2;
   dsbd.dwReserved=0;
   dsbd.dwBufferBytes = SoundSlots[slot].length;
   dsbd.lpwfxFormat = &waveformat;

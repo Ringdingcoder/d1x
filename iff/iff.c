@@ -806,7 +806,7 @@ int convert_rgb15(grs_bitmap *bm,iff_bitmap_header *bmheader)
 	for (y=0; y<bm->bm_h; y++) {
 
 		for (x=0; x<bmheader->w; x++)
-			gr_bm_pixel (bm, x, y, INDEX_TO_15BPP(bmheader->raw_data[y*bmheader->w+x]));
+			gr_bm_pixel (bm, x, y, (unsigned char) INDEX_TO_15BPP(bmheader->raw_data[y*bmheader->w+x]));
 	}
 
 	return IFF_NO_ERROR;

@@ -2,6 +2,7 @@
 /* Mostly taken from dosemu */
 #include <string.h>
 #include <stdlib.h>
+#include "winhdr.h"
 #include <winsock.h>
 #include <wsipx.h>
 //#include <errno.h>

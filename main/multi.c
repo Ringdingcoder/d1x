@@ -2519,7 +2519,7 @@ multi_do_play_sound(char *buf)
 	Assert(Players[pnum].objnum >= 0);
 	Assert(Players[pnum].objnum <= Highest_object_index);
 
-	digi_link_sound_to_object( sound_num, Players[pnum].objnum, 0, volume);	
+	digi_link_sound_to_object( sound_num, (short) Players[pnum].objnum, 0, volume);	
 }
 
 #ifndef SHAREWARE
@@ -3787,9 +3787,9 @@ void multi_initiate_save_game()
 	if ( game_id == 0 ) game_id = 1;		// 0 is invalid
 
 	mprintf(( 1, "Game_id = %8x\n", game_id));
-	multi_send_save_game(slot, game_id, desc );
+	multi_send_save_game((ubyte) slot, game_id, desc );
 	multi_do_frame();
-	multi_save_game(slot,game_id, desc );
+	multi_save_game((ubyte) slot,game_id, desc );
 }
 
 void multi_initiate_restore_game()
@@ -3808,9 +3808,9 @@ void multi_initiate_restore_game()
 	}
 	slot--;
 	start_time();
-	multi_send_restore_game(slot,state_game_id);
+	multi_send_restore_game((ubyte) slot,state_game_id);
 	multi_do_frame();
-	multi_restore_game(slot,state_game_id);
+	multi_restore_game((ubyte) slot,state_game_id);
 }
 
 void multi_save_game(ubyte slot, uint id, char *desc)
