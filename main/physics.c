@@ -636,7 +636,7 @@ if (Dont_move_ai_objects)
 	if (obj == debug_obj) {
 		printf("object %d:\n  start pos = %x %x %x\n",objnum,XYZ(&obj->pos));
 		printf("  thrust = %x %x %x\n",XYZ(&obj->mtype.phys_info.thrust));
-		printf("  sim_time = %lx\n",sim_time);
+		printf("  sim_time = %x\n",sim_time);
 	}
 
 	//check for correct object segment 
@@ -752,7 +752,7 @@ if (Dont_move_ai_objects)
 
 		#ifdef EXTRA_DEBUG
 		if (obj == debug_obj) {
-			printf("   FVI parms: p0 = %8x %8x %8x, segnum=%x, size=%lx\n",XYZ(&obj->pos),obj->segnum,obj->size);
+			printf("   FVI parms: p0 = %8x %8x %8x, segnum=%x, size=%x\n",XYZ(&obj->pos),obj->segnum,obj->size);
 			printf("              p1 = %8x %8x %8x\n",XYZ(&new_pos));
 		}
 		#endif
@@ -912,7 +912,7 @@ save_p1 = *fq.p1;
 					#ifndef NDEBUG
 					mprintf((0,"Bogus sim_time = %x, old = %x\n",sim_time,old_sim_time));
 					if (obj == debug_obj)
-						printf("   Bogus sim_time = %lx, old = %lx, attempted_dist = %lx, actual_dist = %lx\n",sim_time,old_sim_time,attempted_dist,actual_dist);
+						printf("   Bogus sim_time = %x, old = %x, attempted_dist = %x, actual_dist = %x\n",sim_time,old_sim_time,attempted_dist,actual_dist);
 					//Int3(); Removed by Rob
 					#endif
 					sim_time = old_sim_time;
@@ -924,7 +924,7 @@ save_p1 = *fq.p1;
 
 			#ifdef EXTRA_DEBUG
 			if (obj == debug_obj)
-				printf("   new sim_time = %lx\n",sim_time);
+				printf("   new sim_time = %x\n",sim_time);
 			#endif
 
 		}
@@ -980,7 +980,7 @@ save_p1 = *fq.p1;
 						#ifdef EXTRA_DEBUG
 						if (obj == debug_obj) {
 							printf("   sliding - wall_norm %x %x %x\n",XYZ(&hit_info.hit_wallnorm));
-							printf("   wall_part %lx, new velocity = %x %x %x\n",wall_part,XYZ(&obj->mtype.phys_info.velocity));
+							printf("   wall_part %x, new velocity = %x %x %x\n",wall_part,XYZ(&obj->mtype.phys_info.velocity));
 						}
 						#endif
 
