@@ -278,6 +278,11 @@ TryNextChannel:
   dsbd.dwBufferBytes = SoundSlots[slot].length;
   dsbd.lpwfxFormat = &waveformat;
 
+  if (SoundSlots[slot].lpsb)
+  {
+      IDirectSoundBuffer_Release(SoundSlots[slot].lpsb);
+      SoundSlots[slot].lpsb = NULL;
+  }
   hr = IDirectSound_CreateSoundBuffer(lpds, &dsbd, &SoundSlots[slot].lpsb, NULL);
    if ( hr != DS_OK )
     {
@@ -358,6 +363,11 @@ int digi_start_sound_object(int obj)
   dsbd.dwBufferBytes = SoundSlots[slot].length;
   dsbd.lpwfxFormat = &waveformat;
 
+  if (SoundSlots[slot].lpsb)
+  {
+      IDirectSoundBuffer_Release(SoundSlots[slot].lpsb);
+      SoundSlots[slot].lpsb = NULL;
+  }
   hr = IDirectSound_CreateSoundBuffer(lpds, &dsbd, &SoundSlots[slot].lpsb, NULL);
    if ( hr != DS_OK )
     {
