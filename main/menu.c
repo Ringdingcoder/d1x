@@ -1215,7 +1215,7 @@ void do_options_menu()
 		m[7].type = NM_TYPE_MENU; m[7].text=TXT_DETAIL_LEVELS;
 		m[8].type = NM_TYPE_MENU; m[8].text=TXT_CAL_JOYSTICK;
 //added/changed on 10/27/98 by Victor Rachels to increase sensitivity range
-                m[9].type = NM_TYPE_SLIDER; m[9].text=TXT_JOYS_SENSITIVITY; m[9].value=Config_joystick_sensitivity; m[9].min_value =0; m[9].max_value = 32;
+                m[9].type = NM_TYPE_SLIDER; m[9].text=TXT_JOYS_SENSITIVITY; m[9].value=Config_joystick_sensitivity; m[9].min_value =0; m[9].max_value = 8;
 //end this section addition - Victor Rachels
 //added on 4/13/99 by Victor Rachels to add joystick deadzone option
                 m[10].type = NM_TYPE_SLIDER; m[10].text="Joystick Deadzone"; m[10].value=joy_deadzone; m[10].min_value=0; m[10].max_value=16;
