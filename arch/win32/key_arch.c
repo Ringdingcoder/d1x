@@ -48,10 +48,11 @@ void arch_key_init()
 
 	keyd_fake_repeat=1;//direct input doesn't repeat. -MPM
 
-	// my kingdom, my kingdom for C++...
-	if (SUCCEEDED (hr = DirectInputCreate (GetModuleHandle (NULL), DIRECTINPUT_VERSION, &g_lpdi, NULL)))
+	hr = CoCreateInstance(&CLSID_DirectInput, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput7, &g_lpdi);
+	if (SUCCEEDED (hr))
 	{
-               if (SUCCEEDED (hr = IDirectInput_CreateDevice (g_lpdi, (void *)&GUID_SysKeyboard, &g_lpdidKeybd, NULL)))
+		if (SUCCEEDED(hr = IDirectInput7_Initialize(g_lpdi, GetModuleHandle(NULL), DIRECTINPUT_VERSION))
+			&& SUCCEEDED (hr = IDirectInput7_CreateDevice (g_lpdi, (void *)&GUID_SysKeyboard, &g_lpdidKeybd, NULL)))
 		{
 			DIPROPDWORD dipdw;
 
@@ -61,10 +62,10 @@ void arch_key_init()
 			dipdw.diph.dwHow = DIPH_DEVICE;
 			dipdw.dwData = 40;
 
-			if (SUCCEEDED (hr = IDirectInputDevice_SetDataFormat (g_lpdidKeybd, &c_dfDIKeyboard)) &&
-								SUCCEEDED (hr = IDirectInputDevice_SetCooperativeLevel (g_lpdidKeybd, g_hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)) &&
-				SUCCEEDED (hr = IDirectInputDevice_SetProperty (g_lpdidKeybd, DIPROP_BUFFERSIZE, &dipdw.diph)) &&
-				SUCCEEDED (hr = IDirectInputDevice_Acquire (g_lpdidKeybd)))
+			if (SUCCEEDED (hr = IDirectInputDevice7_SetDataFormat (g_lpdidKeybd, &c_dfDIKeyboard)) &&
+								SUCCEEDED (hr = IDirectInputDevice7_SetCooperativeLevel (g_lpdidKeybd, g_hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)) &&
+				SUCCEEDED (hr = IDirectInputDevice7_SetProperty (g_lpdidKeybd, DIPROP_BUFFERSIZE, &dipdw.diph)) &&
+				SUCCEEDED (hr = IDirectInputDevice7_Acquire (g_lpdidKeybd)))
 			{
 				// fine
 				WMKey_Handler_Ready = 1;
@@ -72,7 +73,7 @@ void arch_key_init()
 			}
 			else
 			{
-				IDirectInputDevice_Release (g_lpdidKeybd);
+				IDirectInputDevice7_Release (g_lpdidKeybd);
 				g_lpdidKeybd = NULL;
 			}
 		}
@@ -84,13 +85,13 @@ void arch_key_close(void)
 	WMKey_Handler_Ready = 0;
 	if (g_lpdidKeybd != NULL)
 	{
-		IDirectInputDevice_Unacquire (g_lpdidKeybd);
-		IDirectInputDevice_Release (g_lpdidKeybd);
+		IDirectInputDevice7_Unacquire (g_lpdidKeybd);
+		IDirectInputDevice7_Release (g_lpdidKeybd);
 		g_lpdidKeybd = NULL;
 	}
 	if (g_lpdi != NULL)
 	{
-		IDirectInput_Release (g_lpdi);
+		IDirectInput7_Release (g_lpdi);
 		g_lpdi = NULL;
 	}
 }
@@ -101,10 +102,10 @@ HRESULT ReadKey (DIDEVICEOBJECTDATA *pdidod)
 	HRESULT hr;
 	if (g_lpdidKeybd == NULL)
 		return E_FAIL;
-	hr = IDirectInputDevice_Acquire (g_lpdidKeybd);
+	hr = IDirectInputDevice7_Acquire (g_lpdidKeybd);
 	if (SUCCEEDED (hr))
 	{
-		hr = IDirectInputDevice_GetDeviceData (
+		hr = IDirectInputDevice7_GetDeviceData (
 			g_lpdidKeybd,
 			sizeof (*pdidod),
 			pdidod,
@@ -149,7 +150,7 @@ void arch_key_flush()
 	{
 		DWORD cElements = INFINITE;
 //                HRESULT hr =
-		IDirectInputDevice_GetDeviceData (
+		IDirectInputDevice7_GetDeviceData (
 			g_lpdidKeybd,
 			sizeof (DIDEVICEOBJECTDATA),
 			NULL,

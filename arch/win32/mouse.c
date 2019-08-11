@@ -237,7 +237,7 @@ HRESULT ReadMouse (DIDEVICEOBJECTDATA *pdidod)
 	if (g_lpdidMouse == NULL)
 		return E_FAIL;
 
-	hr = IDirectInputDevice_GetDeviceData (
+	hr = IDirectInputDevice7_GetDeviceData (
 		g_lpdidMouse,
 		sizeof (*pdidod),
 		pdidod,
@@ -246,10 +246,10 @@ HRESULT ReadMouse (DIDEVICEOBJECTDATA *pdidod)
 
 	if (hr == DIERR_INPUTLOST)
 	{
-		hr = IDirectInputDevice_Acquire (g_lpdidMouse);
+		hr = IDirectInputDevice7_Acquire (g_lpdidMouse);
 		if (SUCCEEDED (hr))
 		{
-			hr = IDirectInputDevice_GetDeviceData (
+			hr = IDirectInputDevice7_GetDeviceData (
 				g_lpdidMouse,
 				sizeof (*pdidod),
 				pdidod,
@@ -354,7 +354,7 @@ void mouse_flush()
 	{
 		DWORD cElements = INFINITE;
 //                HRESULT hr =
-		IDirectInputDevice_GetDeviceData (
+		IDirectInputDevice7_GetDeviceData (
 			g_lpdidMouse,
 			sizeof (DIDEVICEOBJECTDATA),
 			NULL,
@@ -371,13 +371,13 @@ void mouse_close(void)
 
 	if (g_lpdidMouse != NULL)
 	{
-		IDirectInputDevice_Unacquire (g_lpdidMouse);
-		IDirectInputDevice_Release (g_lpdidMouse);
+		IDirectInputDevice7_Unacquire (g_lpdidMouse);
+		IDirectInputDevice7_Release (g_lpdidMouse);
 		g_lpdidMouse = NULL;
 	}
 	if (g_lpdi != NULL)
 	{
-		IDirectInput_Release (g_lpdi);
+		IDirectInput7_Release (g_lpdi);
 		g_lpdi = NULL;
 	}
 }
@@ -394,9 +394,11 @@ int mouse_init(int unused)
 	{
 		HRESULT hr;
 
-		if (SUCCEEDED (hr = DirectInputCreate (GetModuleHandle (NULL), DIRECTINPUT_VERSION, &g_lpdi, NULL)))
+		hr = CoCreateInstance(&CLSID_DirectInput, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput7, &g_lpdi);
+		if (SUCCEEDED (hr))
 		{
-                        if (SUCCEEDED (hr = IDirectInput_CreateDevice (g_lpdi,(void *) &GUID_SysMouse, &g_lpdidMouse, NULL)))
+			if (SUCCEEDED(hr = IDirectInput7_Initialize(g_lpdi, GetModuleHandle(NULL), DIRECTINPUT_VERSION))
+				&& SUCCEEDED (hr = IDirectInput7_CreateDevice (g_lpdi,(void *) &GUID_SysMouse, &g_lpdidMouse, NULL)))
 			{
 				DIPROPDWORD dipdw;
 				dipdw.diph.dwSize = sizeof (DIPROPDWORD);
@@ -405,17 +407,17 @@ int mouse_init(int unused)
 				dipdw.diph.dwHow = DIPH_DEVICE;
 				dipdw.dwData = 40;
 
-				if (SUCCEEDED (hr = IDirectInputDevice_SetDataFormat (g_lpdidMouse, &c_dfDIMouse)) &&
+				if (SUCCEEDED (hr = IDirectInputDevice7_SetDataFormat (g_lpdidMouse, &c_dfDIMouse)) &&
                                         //changed on 9/4/99 by Victor Rachels NONEX -> Exclusive
-                                        SUCCEEDED (hr = IDirectInputDevice_SetCooperativeLevel (g_lpdidMouse, g_hWnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)) &&
+                                        SUCCEEDED (hr = IDirectInputDevice7_SetCooperativeLevel (g_lpdidMouse, g_hWnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)) &&
                                         //end this section edit -VR
-					SUCCEEDED (hr = IDirectInputDevice_SetProperty (g_lpdidMouse, DIPROP_BUFFERSIZE, &dipdw.diph)) &&
-					SUCCEEDED (hr = IDirectInputDevice_Acquire (g_lpdidMouse)))
+					SUCCEEDED (hr = IDirectInputDevice7_SetProperty (g_lpdidMouse, DIPROP_BUFFERSIZE, &dipdw.diph)) &&
+					SUCCEEDED (hr = IDirectInputDevice7_Acquire (g_lpdidMouse)))
 				{
 				}
 				else
 				{
-					IDirectInputDevice_Release (g_lpdidMouse);
+					IDirectInputDevice7_Release (g_lpdidMouse);
 					g_lpdidMouse = NULL;
 					return 0;
 				}

@@ -317,6 +317,10 @@ bool OpenGL_Initialize(void)
 	int pf;
 	PIXELFORMATDESCRIPTOR pfd;//, pfd_copy;
 
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	if (FAILED(hr))
+		return false;
+
 	GLPREF_windowed=!ogl_fullscreen;
 	
 	if (FindArg("-gl_test1")){
